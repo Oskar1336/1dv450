@@ -1,8 +1,0 @@
-<h1>Get api key</h1>
-<p>Form:</p>
-
-<%= form_for @new_application :url => { :action => "create" } do |f| %>
-	<%= f.text_field :email %>
-	<%= f.text_field :appname %>
-	<%= f.submit "Get api key" %>
-<% end %>
