@@ -1,0 +1,2 @@
+module AipKeyHelper
+end
