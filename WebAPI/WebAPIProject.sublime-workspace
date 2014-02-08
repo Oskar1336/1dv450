@@ -4,12 +4,20 @@
 		"selected_items":
 		[
 			[
-				"pa",
-				"password"
+				"def",
+				"def	def … end"
 			],
 			[
-				"def",
-				"defcreate	def create - resource"
+				"i",
+				"if	if … end"
+			],
+			[
+				"f",
+				"ft	form_tag"
+			],
+			[
+				"pa",
+				"password"
 			],
 			[
 				"Applic",
@@ -78,10 +86,6 @@
 			[
 				"simple",
 				"simplexml_load_file"
-			],
-			[
-				"f",
-				"fun	function …"
 			],
 			[
 				"passw",
@@ -443,15 +447,7 @@
 			"file": "config/routes.rb",
 			"settings":
 			{
-				"buffer_size": 1703,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/controllers/home_controller.rb",
-			"settings":
-			{
-				"buffer_size": 449,
+				"buffer_size": 1679,
 				"line_ending": "Unix"
 			}
 		},
@@ -459,24 +455,24 @@
 			"file": "app/controllers/admin_controller.rb",
 			"settings":
 			{
-				"buffer_size": 94,
+				"buffer_size": 348,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/views/admin/loginform.html.erb",
+			"file": "app/views/admin/new.html.erb",
 			"settings":
 			{
-				"buffer_size": 297,
-				"line_ending": "Windows"
+				"buffer_size": 299,
+				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/views/home/new.html.erb",
+			"file": "app/views/admin/loggedin.html.erb",
 			"settings":
 			{
-				"buffer_size": 324,
-				"line_ending": "Windows"
+				"buffer_size": 72,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -544,13 +540,16 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Oskar/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/controllers/home_controller.rb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/views/admin/loginform.html.erb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/controllers/admin_controller.rb",
 		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/views/home/new.html.erb",
 		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/views/home/index.html.erb",
 		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/models/application_info.rb",
 		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/views/home/loggedin.html.erb",
 		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/db/migrate/20140207231933_create_application_infos.rb",
 		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/Gemfile",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/controllers/home_controller.rb",
 		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/bin/bundle",
 		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/db/migrate/20140207212808_create_api_keys.rb",
 		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/db/migrate/20140207212743_create_applications.rb",
@@ -668,10 +667,7 @@
 		"/C/Users/Oskar/Documents/GitHub/kurs/1dv449_og222bg/Projekt/Projektbeskrivning.md",
 		"/C/Users/Oskar/Documents/GitHub/kurs/1dv449_og222bg/Projekt/Porjektbeskrivning.md",
 		"/C/Users/Oskar/Documents/GitHub/kurs/1dv449_og222bg/Seminarium/förberedelseSeminarium3.md",
-		"/C/Users/Oskar/AppData/Local/Temp/Rar$EXa0.197/source/frame.html",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv449_og222bg/Labb3/index.php",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv449_og222bg/Labb3/index.html",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv449_og222bg/Labb2/img/middle.php"
+		"/C/Users/Oskar/AppData/Local/Temp/Rar$EXa0.197/source/frame.html"
 	],
 	"find":
 	{
@@ -836,7 +832,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -844,15 +840,15 @@
 					"file": "config/routes.rb",
 					"settings":
 					{
-						"buffer_size": 1703,
+						"buffer_size": 1679,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								135,
-								135
+								112,
+								112
 							]
 						],
 						"settings":
@@ -958,135 +954,18 @@
 				},
 				{
 					"buffer": 1,
-					"file": "app/controllers/home_controller.rb",
-					"settings":
-					{
-						"buffer_size": 449,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								56,
-								56
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_gutter_marks_theme": "simple",
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/Rails/Ruby on Rails.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "app/controllers/admin_controller.rb",
 					"settings":
 					{
-						"buffer_size": 94,
+						"buffer_size": 348,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								63,
-								63
+								195,
+								195
 							]
 						],
 						"settings":
@@ -1189,19 +1068,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "app/views/admin/loginform.html.erb",
+					"buffer": 2,
+					"file": "app/views/admin/new.html.erb",
 					"settings":
 					{
-						"buffer_size": 297,
+						"buffer_size": 299,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								228,
-								228
+								85,
+								85
 							]
 						],
 						"settings":
@@ -1304,19 +1183,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "app/views/home/new.html.erb",
+					"buffer": 3,
+					"file": "app/views/admin/loggedin.html.erb",
 					"settings":
 					{
-						"buffer_size": 324,
+						"buffer_size": 72,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								209,
-								209
+								72,
+								72
 							]
 						],
 						"settings":
@@ -1410,8 +1289,7 @@
 								"Ruby on Rails": "ruby"
 							},
 							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/Rails/HTML (Rails).tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Rails/HTML (Rails).tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,

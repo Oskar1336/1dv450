@@ -1,6 +1,11 @@
-<h1>Login</h1>
+<h1>Sign in</h1>
 <p>
-	<%= form_for :login, url: { controller: "admin", action: "login" } do |f| %>
+	<% if flash[:notice] %>
+		<div class="Error"><%= flash[:notice] %></div>
+	<% end %>
+</p>
+<p>
+	<%= form_for :login, url: { controller: "admin", action: "login_attempt" } do |f| %>
 		<p>
 			<%= f.label :username %>
 			<%= f.text_field :username %>
