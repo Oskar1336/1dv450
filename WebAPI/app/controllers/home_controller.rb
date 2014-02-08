@@ -1,19 +1,20 @@
 class HomeController < ApplicationController
   def index
-  	
   end
   
   def new
-  	@appinfo = ApplicationInfo.new
   end
   
   def create
   	apistring = "QwErTyUiOpAsDfGhJkLmNbVcXz0123456789"
-  	@appinfo = ApplicationInfo.new(params[:app].permit(:applicationname, :email), apistring.split('').shuffle.join)
+  	@appinfo = ApplicationInfo.new
+    @appinfo.applicationname = params[:app][:application_name]
+    @appinfo.email = params[:app][:email]
+    @appinfo.apikey = apistring.split('').shuffle.join
   	if @appinfo.save
-  		redirect_to @appinfo
-  	else
-  		render "new"
-  	end
+      redirect_to :action => "index"
+    else
+      render "new"
+    end
   end
 end
