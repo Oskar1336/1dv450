@@ -9,7 +9,7 @@ class LoginController < ApplicationController
       session[:username] = "Admin"
   		redirect_to :controller => "admin", :action => "loggedin"
   	else
-  		flash[:notice] = "Invalid username/password combination"
+  		flash.now[:loginnotice] = "Invalid username/password creadentials"
   		render "login"
   	end
   end

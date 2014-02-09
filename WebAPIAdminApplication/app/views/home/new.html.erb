@@ -2,7 +2,7 @@
 <p>
 	<%= form_for @appinfo, :url => { :controller => "home", :action => "create" } do |f| %>
 		<p>
-			<ul>
+			<ul class="errorList">
 				<% @appinfo.errors.full_messages.each do |msg| %>
 					<li><%= msg %></li>
 				<% end %>
