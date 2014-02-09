@@ -5,6 +5,7 @@ class HomeController < ApplicationController
   def new
   end
   
+  # @todo: Add successmessage
   def create
   	apistring = "QwErTyUiOpAsDfGhJkLmNbVcXz0123456789"
   	@appinfo = ApplicationInfo.new

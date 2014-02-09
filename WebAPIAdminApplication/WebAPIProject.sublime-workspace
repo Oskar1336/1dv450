@@ -4,16 +4,20 @@
 		"selected_items":
 		[
 			[
+				"f",
+				"fet	fetch(name) { |key| .. }"
+			],
+			[
+				"ta",
+				"TABLE	Tag"
+			],
+			[
 				"def",
 				"def	def … end"
 			],
 			[
 				"i",
 				"if	if … end"
-			],
-			[
-				"f",
-				"ft	form_tag"
 			],
 			[
 				"pa",
@@ -443,38 +447,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "config/routes.rb",
-			"settings":
-			{
-				"buffer_size": 1679,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/controllers/admin_controller.rb",
-			"settings":
-			{
-				"buffer_size": 348,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/admin/new.html.erb",
-			"settings":
-			{
-				"buffer_size": 299,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/admin/loggedin.html.erb",
-			"settings":
-			{
-				"buffer_size": 72,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "Packages/JSLint/JSLint.sublime-build",
 	"command_palette":
@@ -540,39 +512,47 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/log/development.log",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/config/routes.rb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/app/controllers/login_controller.rb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/app/views/admin/show.html.erb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/app/controllers/admin_controller.rb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/app/views/admin/loggedin.html.erb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/app/controllers/application_controller.rb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/app/controllers/home_controller.rb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/app/views/login/login.html.erb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/app/models/application_info.rb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/app/views/home/index.html.erb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/app/views/admin/login.html.erb",
 		"/C/Users/Oskar/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/controllers/home_controller.rb",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/views/admin/loginform.html.erb",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/controllers/admin_controller.rb",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/views/home/new.html.erb",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/views/home/index.html.erb",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/models/application_info.rb",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/views/home/loggedin.html.erb",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/db/migrate/20140207231933_create_application_infos.rb",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/Gemfile",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/bin/bundle",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/db/migrate/20140207212808_create_api_keys.rb",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/db/migrate/20140207212743_create_applications.rb",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/models/application.rb",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/models/api_key.rb",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/db/schema.rb",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/app/views/layouts/application.html.erb",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/README.rdoc",
-		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPI/WebAPIProject.sublime-workspace",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/app/views/admin/loginform.html.erb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/app/views/home/new.html.erb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/app/views/home/loggedin.html.erb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/db/migrate/20140207231933_create_application_infos.rb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/Gemfile",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/bin/bundle",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/db/migrate/20140207212808_create_api_keys.rb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/db/migrate/20140207212743_create_applications.rb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/app/models/application.rb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/app/models/api_key.rb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/db/schema.rb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/app/views/layouts/application.html.erb",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/README.rdoc",
+		"/C/Users/Oskar/Documents/GitHub/1dv450/WebAPIAdminApplication/WebAPIProject.sublime-workspace",
 		"/C/Users/Oskar/Documents/GitHub/1dv450/1dv450Project.sublime-project",
 		"/C/Users/Oskar/Documents/GitHub/1dv450/README.md",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPI/app/views/aip_key/index.html.erb",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPI/app/views/aip_key/new.html.erb",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPI/app/controllers/aip_key_controller.rb",
+		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPIAdminApplication/app/views/aip_key/index.html.erb",
+		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPIAdminApplication/app/views/aip_key/new.html.erb",
+		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPIAdminApplication/app/controllers/aip_key_controller.rb",
 		"/C/Users/Oskar/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPI/db/migrate/20140206205617_create_api_keys.rb",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPI/app/views/layouts/application.html.erb",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPI/db/schema.rb",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPI/db/migrate/20140206202507_create_applications.rb",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPI/app/models/application.rb",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPI/config/routes.rb",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPI/app/models/api_key.rb",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPI/app/controllers/application_controller.rb",
+		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPIAdminApplication/db/migrate/20140206205617_create_api_keys.rb",
+		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPIAdminApplication/app/views/layouts/application.html.erb",
+		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPIAdminApplication/db/schema.rb",
+		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPIAdminApplication/db/migrate/20140206202507_create_applications.rb",
+		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPIAdminApplication/app/models/application.rb",
+		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPIAdminApplication/config/routes.rb",
+		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPIAdminApplication/app/models/api_key.rb",
+		"/C/Users/Oskar/Documents/GitHub/kurs/1dv450/WebAPIAdminApplication/app/controllers/application_controller.rb",
 		"/C/Users/Oskar/Documents/GitHub/kurs/1dv409_og222bg/Labb3/notes.md",
 		"/C/Users/Oskar/Documents/GitHub/kurs/1dv409_og222bg/Labb3/SQLQueries.sql",
 		"/C/Users/Oskar/Documents/GitHub/kurs/1dv411_og222bg/AngularJSTest/app/app.js",
@@ -659,15 +639,7 @@
 		"/C/Users/Oskar/Documents/GitHub/kurs/1dv449_og222bg/Projekt/Kod/index.html",
 		"/C/Users/Oskar/Documents/GitHub/kurs/1dv449_og222bg/Projekt/Kod/ajax.php",
 		"/C/Users/Oskar/Documents/GitHub/kurs/1dv449_og222bg/Projekt/Kod/php/view.php",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv408_og222bg/MittQuizspel/DatabaseCreds.php",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv449_og222bg/Projekt/Dokumentation/test.xml",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv449_og222bg/Projekt/Dokumentation/Projektbeskrivning.md",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv409_og222bg/WeatherProject/t.json",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv449_og222bg/Projekt/apis.md",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv449_og222bg/Projekt/Projektbeskrivning.md",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv449_og222bg/Projekt/Porjektbeskrivning.md",
-		"/C/Users/Oskar/Documents/GitHub/kurs/1dv449_og222bg/Seminarium/förberedelseSeminarium3.md",
-		"/C/Users/Oskar/AppData/Local/Temp/Rar$EXa0.197/source/frame.html"
+		"/C/Users/Oskar/Documents/GitHub/kurs/1dv408_og222bg/MittQuizspel/DatabaseCreds.php"
 	],
 	"find":
 	{
@@ -832,471 +804,8 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "config/routes.rb",
-					"settings":
-					{
-						"buffer_size": 1679,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								112,
-								112
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_gutter_marks_theme": "simple",
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/Rails/Ruby on Rails.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "app/controllers/admin_controller.rb",
-					"settings":
-					{
-						"buffer_size": 348,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								195,
-								195
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_gutter_marks_theme": "simple",
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/Rails/Ruby on Rails.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "app/views/admin/new.html.erb",
-					"settings":
-					{
-						"buffer_size": 299,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								85,
-								85
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_gutter_marks_theme": "simple",
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/Rails/HTML (Rails).tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/views/admin/loggedin.html.erb",
-					"settings":
-					{
-						"buffer_size": 72,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								72,
-								72
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_gutter_marks_theme": "simple",
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/Rails/HTML (Rails).tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],

@@ -5,7 +5,7 @@
 	<% end %>
 </p>
 <p>
-	<%= form_for :login, url: { controller: "admin", action: "login_attempt" } do |f| %>
+	<%= form_for :login, url: { controller: "login", action: "login_attempt" } do |f| %>
 		<p>
 			<%= f.label :username %>
 			<%= f.text_field :username %>

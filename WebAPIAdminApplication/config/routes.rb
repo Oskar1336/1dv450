@@ -2,10 +2,17 @@ WebAPI::Application.routes.draw do
   get "home/index"
   get "home/new"
   post "home/create"
-  get "admin/login"
-  post "admin/login_attempt"
+  get "login/login"
+  post "login/login_attempt"
   get "admin/loggedin"
   get "admin/logout"
+  
+  resources :admin # Handle CRUD actions for admin controller
+  
+  # get "admin/:id", to: "admin#show", as: "admin" # Shows specific application
+  # get "admin/:id/edit", to: "admin#edit", as: "edit" # Shows edit page a specific application
+  # put "admin/:id", to: "admin#update" # Updates a specific application
+  # delete "admin/:id", to: "admin#destroy", as: "delete" # Removes a specific application
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   	if session[:username]
   		return true
   	else
-  		redirect_to :controller => "admin", :action => "login"
+  		redirect_to :controller => "login", :action => "login"
   		return false
   	end
   end
