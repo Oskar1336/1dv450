@@ -1,9 +1,16 @@
 <h1>Register for APIKey</h1>
 <p>
-	<%= form_for :app, url: { controller: "home", action: "create" } do |f| %>
+	<%= form_for @appinfo, :url => { :controller => "home", :action => "create" } do |f| %>
 		<p>
-			<%= f.label :application_name %><br>
-			<%= f.text_field :application_name %>
+			<ul>
+				<% @appinfo.errors.full_messages.each do |msg| %>
+					<li><%= msg %></li>
+				<% end %>
+			</ul>
+		</p>
+		<p>
+			<%= f.label :applicationname %><br>
+			<%= f.text_field :applicationname %>
 		</p>	
 		<p>
 			<%= f.label :email %><br>
@@ -13,4 +20,7 @@
 			<%= f.submit %>
 		</p>
 	<% end %>
+</p>
+<p>
+	<%= link_to "Back to startpage", :controller => "home", :action => "index" %>
 </p>

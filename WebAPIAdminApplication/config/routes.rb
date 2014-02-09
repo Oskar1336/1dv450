@@ -7,8 +7,9 @@ WebAPI::Application.routes.draw do
   get "admin/loggedin"
   get "admin/logout"
   
-  resources :admin # Handle CRUD actions for admin controller
+  resources :home
   
+  resources :admin # Handle CRUD actions for admin controller
   # get "admin/:id", to: "admin#show", as: "admin" # Shows specific application
   # get "admin/:id/edit", to: "admin#edit", as: "edit" # Shows edit page a specific application
   # put "admin/:id", to: "admin#update" # Updates a specific application

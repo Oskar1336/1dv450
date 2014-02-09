@@ -1,4 +1,5 @@
 class ApplicationInfo < ActiveRecord::Base
-	validates :email, :applicationname, :apikey, presence: true
-	validates :apikey, uniqueness: true
+	validates :applicationname, :presence => {:message => " is required"}
+	validates :email, :presence => {:message => " is required"}
+	validates :apikey, :uniqueness => true, :presence => true
 end
