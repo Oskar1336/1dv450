@@ -1,5 +1,5 @@
 class Application < ActiveRecord::Base
-	has_one :ApiKey
+	has_one :api_key
 	
 	# Validation
 	validates :contact_mail, :application_name, :presence => true

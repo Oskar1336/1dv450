@@ -53,4 +53,8 @@ TOERHWebAPI::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  namespace :api do
+    resources :resource, :defaults => { :format => "json" }
+    resources :login, :defaults => { :format => "json" }
+  end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140211210112) do
+ActiveRecord::Schema.define(version: 20140212143441) do
 
   create_table "api_keys", force: true do |t|
     t.integer  "Application_id"
@@ -40,20 +40,22 @@ ActiveRecord::Schema.define(version: 20140211210112) do
   end
 
   create_table "resources", force: true do |t|
-    t.integer  "ResourceType_id"
-    t.integer  "User_id"
-    t.integer  "Licence_id"
+    t.integer  "resource_type_id", null: false
+    t.integer  "user_id",          null: false
+    t.integer  "licence_id",       null: false
+    t.string   "description",      null: false
+    t.string   "url",              null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "tag_resource_tables", force: true do |t|
-    t.integer "Resource_id"
-    t.integer "Tag_id"
+  create_table "resources_tags", force: true do |t|
+    t.integer "resource_id"
+    t.integer "tag_id"
   end
 
   create_table "tags", force: true do |t|
-    t.string   "tag",        limit: 20, null: false
+    t.string   "licence_type", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

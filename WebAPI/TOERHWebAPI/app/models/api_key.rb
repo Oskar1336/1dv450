@@ -1,6 +1,6 @@
 class ApiKey < ActiveRecord::Base
-	belongs_to :Application
+	belongs_to :application
 	
 	# Validation
-	validates_associated :Application
+	validates_associated :application
 end

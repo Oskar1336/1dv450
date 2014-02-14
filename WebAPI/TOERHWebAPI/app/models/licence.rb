@@ -1,5 +1,5 @@
 class Licence < ActiveRecord::Base
-	has_many :Resources, :class_name => "Resource", :foreign_key => "Licence_id"
+	has_many :resources
 	
 	# Validation
 	validates :licence_type, :presence => true
