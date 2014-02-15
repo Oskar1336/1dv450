@@ -34,8 +34,11 @@ end
 
 gem "validates_email_format_of"
 
+# Add 
+gem 'grosser-ssl_requirement', :require => 'ssl_requirement'
+
 # Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
+gem 'bcrypt-ruby', '~> 3.1.2'
 
 # Use unicorn as the app server
 # gem 'unicorn'
@@ -44,4 +47,4 @@ gem "validates_email_format_of"
 # gem 'capistrano', group: :development
 
 # Use debugger
-# gem 'debugger', group: [:development, :test]
+gem 'debugger', group: [:development, :test]
