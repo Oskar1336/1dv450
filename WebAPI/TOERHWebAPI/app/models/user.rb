@@ -3,4 +3,5 @@ class User < ActiveRecord::Base
 	
 	# Validate
 	validates :firstname, :lastname, :email, :presence => true
+	validates :username, :uniqueness => true
 end
