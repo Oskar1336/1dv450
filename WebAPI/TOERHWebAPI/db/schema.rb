@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140214233334) do
+ActiveRecord::Schema.define(version: 20140217215830) do
 
   create_table "api_keys", force: true do |t|
     t.integer  "Application_id"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 20140214233334) do
   end
 
   create_table "licences", force: true do |t|
-    t.string   "licence_type", limit: 40, null: false
+    t.string   "licence_type", limit: 70, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -40,13 +40,14 @@ ActiveRecord::Schema.define(version: 20140214233334) do
   end
 
   create_table "resources", force: true do |t|
-    t.integer  "resource_type_id", null: false
-    t.integer  "user_id",          null: false
-    t.integer  "licence_id",       null: false
-    t.string   "description",      null: false
-    t.string   "url",              null: false
+    t.integer  "resource_type_id",             null: false
+    t.integer  "user_id",                      null: false
+    t.integer  "licence_id",                   null: false
+    t.string   "description",                  null: false
+    t.string   "url",                          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name",             limit: 100
   end
 
   create_table "resources_tags", force: true do |t|
@@ -61,13 +62,13 @@ ActiveRecord::Schema.define(version: 20140214233334) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "firstname",  limit: 40, null: false
-    t.string   "lastname",   limit: 50, null: false
-    t.string   "email",      limit: 40, null: false
+    t.string   "firstname",  limit: 40,  null: false
+    t.string   "lastname",   limit: 50,  null: false
+    t.string   "email",      limit: 40,  null: false
+    t.string   "username",   limit: 30
+    t.string   "password",   limit: 130
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "username",   limit: 30
-    t.string   "password",   limit: 20
   end
 
 end
