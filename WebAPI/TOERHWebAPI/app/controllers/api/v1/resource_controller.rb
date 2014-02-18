@@ -1,10 +1,12 @@
 require 'digest/sha2'
 
 class Api::V1::ResourceController < ApplicationController
+	@@current_username = ""
+	
 	before_filter :validateApiKey
 	before_filter :validateUser, :except => [:index, :show]
 	
-	# GET: api/v1/resource?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe  test apikey
+	# GET: api/v1/resource?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe
 	def index
 		resources = Resource.all
 		if resources != nil
@@ -35,7 +37,7 @@ class Api::V1::ResourceController < ApplicationController
 		end
 	end
 	
-	# GET: api/v1/resource/:id?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe  test apikey
+	# GET: api/v1/resource/:id?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe
 	def show
 		begin
 			resource = Resource.find(params[:id])
@@ -67,51 +69,52 @@ class Api::V1::ResourceController < ApplicationController
 		end
 	end
 	
-	# @TODO: validate parameters.
-	# POST: api/v1/resource?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe&username=oskar  testing parameters
-	# JSON: {
-	#   "resource": {
-	#     "name":"Name of resource",
-	#     "resourcetype":"Resource type",
-	#     "licencetype":"Licence type",
-	#     "description":"Resource description",
-	#     "url":"Resource location",
-	#     "tags":[Array of resource tags]
-	#   }
-	# }
+	# POST: api/v1/resource?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe
 	def create
-		if params[:resource] != nil
-			resourcetype = ResourceType.find_or_create_by_resource_type(params[:resource][:resourcetype])
-			licencetype = Licence.find_or_create_by_licence_type(params[:resource][:licencetype])
+		if params[:resource].blank? == false
+			resourcetypeparam = params[:resource][:resourcetype]
+			licencetypeparam = params[:resource][:licencetype]
 			description = params[:resource][:description]
-			name = params[:resource][:name]
 			url = params[:resource][:url]
 			tags = params[:resource][:tags]
-			user = User.find_by_username(params[:username])
+			name = params[:resource][:name]
 			
-			resource = Resource.new
-			resource.name = name
-			resource.resource_type_id = resourcetype.id
-			resource.user_id = user.id
-			resource.licence_id = licencetype.id
-			resource.description = description
-			resource.url = url
-			resource.created_at = DateTime.now
-			resource.updated_at = DateTime.now
-			resource.save
-			
-			tags.each do |tag|
-				tagInfo = Tag.find_or_create_by_tag(tag)
-				resource.tags << tagInfo
-			end
-			respond_to do |f|
-				f.json { render json: resource, :status => 201 }
-				f.xml { render xml: resource, :status => 201 }
+			if name.blank? == false && licencetypeparam.blank? == false && resourcetypeparam.blank? == false
+				user = User.find_by_username(@@current_username)
+				licencetype = Licence.find_or_create_by_licence_type(licencetypeparam)
+				resourcetype = ResourceType.find_or_create_by_resource_type(resourcetypeparam)
+				resource = Resource.new
+				resource.name = name
+				resource.resource_type_id = resourcetype.id
+				resource.user_id = user.id
+				resource.licence_id = licencetype.id
+				resource.description = description
+				resource.url = url
+				resource.created_at = DateTime.now
+				resource.updated_at = DateTime.now			
+				tags.each do |tag|
+					tagInfo = Tag.find_or_create_by_tag(tag)
+					resource.tags << tagInfo
+				end
+				resource.save
+				
+				respond_to do |f|
+					f.json { render json: resource, :status => 201 }
+					f.xml { render xml: resource, :status => 201 }
+				end
+			else
+				errorHash = Hash.new
+				errorHash["statuscode"] = 400
+				errorHash["Errormessage"] = "Required parameters missing"
+				respond_to do |f|
+					f.json { render json: errorHash, :status => 404 }
+					f.xml { render xml: errorHash, :status => 404 }
+				end
 			end
 		else
 			errorHash = Hash.new
 			errorHash["statuscode"] = 404
-			errorHash["Errormessage"] = "Check your JSON body resource parameter not found"
+			errorHash["Errormessage"] = "Check your JSON body, resource parameter not found"
 			respond_to do |f|
 				f.json { render json: errorHash, :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
@@ -119,7 +122,7 @@ class Api::V1::ResourceController < ApplicationController
 		end
 	end
 	
-	# PUT: api/v1/resource/:id?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe&username=oskar  testing parameters
+	# PUT: api/v1/resource/:id?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe
 	def update
 		begin
 			if params[:resource].blank? == false
@@ -148,8 +151,19 @@ class Api::V1::ResourceController < ApplicationController
 						resource.tags << tagInfo
 					end
 				end
-				resource.save
-				render :nothing => true, :status => 200
+				user = User.find_by_username(@@current_username)
+				if user.id == resource.user_id
+					resource.save
+					render :nothing => true, :status => 200
+				else
+					errorHash = Hash.new
+					errorHash["statuscode"] = 403
+					errorHash["Errormessage"] = "Current user does not have access to this resource"
+					respond_to do |f|
+						f.json { render json: errorHash, :status => 403 }
+						f.xml { render xml: errorHash, :status => 403 }
+					end
+				end
 			else
 				errorHash = Hash.new
 				errorHash["statuscode"] = 400
@@ -170,12 +184,11 @@ class Api::V1::ResourceController < ApplicationController
 		end		
 	end
 	
-	# @TODO: validate parameters.
-	# DELETE: api/v1/resource/:id?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe&username=oskar  testing parameters
+	# DELETE: api/v1/resource/:id?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe
 	def destroy
 		begin
 			resource = Resource.find(params[:id])
-			user = User.find_by_username(params[:username])
+			user = User.find_by_username(@@current_username)
 			if resource.user_id == user.id
 				resource.destroy
 				respond_to do |f|
@@ -215,6 +228,7 @@ class Api::V1::ResourceController < ApplicationController
 		
 		def validateUser
 			authenticate_or_request_with_http_basic do |username, password|
+				@@current_username = username
 				User.find_by_username(username).password == Digest::SHA512.hexdigest(password) && params[:username] == username
 			end
 		end
