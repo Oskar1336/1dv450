@@ -1,8 +1,4 @@
-require 'digest/sha2'
-
 class Api::V1::ResourceController < ApplicationController
-	@@current_username = ""
-	
 	before_filter :validateApiKey
 	before_filter :validateUser, :except => [:index, :show]
 	
@@ -12,18 +8,7 @@ class Api::V1::ResourceController < ApplicationController
 		if resources != nil
 			resultArray = Array.new
 			resources.each do |resource|
-				resourceHash = Hash.new
-				resourceHash["statuscode"]=200
-				resourceHash["resource_id"]=resource.id
-				resourceHash["resource_type_id"]=resource.resource_type_id
-				resourceHash["resource_type"]=resource.resource_type
-				resourceHash["username"]=resource.user.username
-				resourceHash["licence_id"]=resource.licence_id
-				resourceHash["licence"]=resource.licence
-				resourceHash["description"]=resource.description
-				resourceHash["url"]=resource.url
-				resourceHash["tags"]=resource.tags
-				resultArray << resourceHash
+				resultArray << generateResourceHash(resource)
 			end
 			respond_to do |f|
 				f.json { render json: resultArray, :status => 200 }
@@ -41,19 +26,7 @@ class Api::V1::ResourceController < ApplicationController
 	def show
 		begin
 			resource = Resource.find(params[:id])
-			
-			resourceHash = Hash.new
-			resourceHash["statuscode"]=200
-			resourceHash["resource_id"]=resource.id
-			resourceHash["resource_type_id"]=resource.resource_type_id
-			resourceHash["resource_type"]=resource.resource_type
-			resourceHash["username"]=resource.user.username
-			resourceHash["licence_id"]=resource.licence_id
-			resourceHash["licence"]=resource.licence
-			resourceHash["description"]=resource.description
-			resourceHash["url"]=resource.url
-			resourceHash["tags"]=resource.tags
-			
+			resourceHash = generateResourceHash(resource)
 			respond_to do |f|
 				f.json { render json: resourceHash, :status => 200 }
 				f.xml { render xml: resourceHash, :status => 200 }
@@ -99,8 +72,8 @@ class Api::V1::ResourceController < ApplicationController
 				resource.save
 				
 				respond_to do |f|
-					f.json { render json: resource, :status => 201 }
-					f.xml { render xml: resource, :status => 201 }
+					f.json { render json: generateResourceHash(resource), :status => 201 }
+					f.xml { render xml: generateResourceHash(resource), :status => 201 }
 				end
 			else
 				errorHash = Hash.new
@@ -154,7 +127,10 @@ class Api::V1::ResourceController < ApplicationController
 				user = User.find_by_username(@@current_username)
 				if user.id == resource.user_id
 					resource.save
-					render :nothing => true, :status => 200
+					respond_to do |f|
+						f.json { render json: generateResourceHash(resource), :status => 201 }
+						f.xml { render xml: generateResourceHash(resource), :status => 201 }
+					end
 				else
 					errorHash = Hash.new
 					errorHash["statuscode"] = 403
@@ -208,28 +184,4 @@ class Api::V1::ResourceController < ApplicationController
 			render :json => errorHash, :status => 404
 		end
 	end
-	
-	private
-		def validateApiKey
-			key = ApiKey.find_by key: params[:apikey]
-			if key == nil
-				errorHash = Hash.new
-				errorHash["statuscode"] = 401
-				errorHash["Errormessage"] = "Application apikey is missing or it's wrong"
-				respond_to do |f|
-					f.json { render json: errorHash, :status => 401 }
-					f.xml { render xml: errorHash, :status => 401 }
-				end
-				return false
-			else
-				return true
-			end
-		end
-		
-		def validateUser
-			authenticate_or_request_with_http_basic do |username, password|
-				@@current_username = username
-				User.find_by_username(username).password == Digest::SHA512.hexdigest(password) && params[:username] == username
-			end
-		end
 end
