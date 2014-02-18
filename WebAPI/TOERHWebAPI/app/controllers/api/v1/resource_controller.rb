@@ -4,10 +4,10 @@ class Api::V1::ResourceController < ApplicationController
 	before_filter :validateApiKey
 	before_filter :validateUser, :except => [:index, :show]
 	
-	# GET: api/v1/resource?apikey=yourAPIKey
+	# GET: api/v1/resource?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe  test apikey
 	def index
 		resources = Resource.all
-		if resource != nil
+		if resources != nil
 			resultArray = Array.new
 			resources.each do |resource|
 				resourceHash = Hash.new
@@ -15,8 +15,7 @@ class Api::V1::ResourceController < ApplicationController
 				resourceHash["resource_id"]=resource.id
 				resourceHash["resource_type_id"]=resource.resource_type_id
 				resourceHash["resource_type"]=resource.resource_type
-				resourceHash["user_id"]=resource.user_id
-				resourceHash["user"]=resource.user
+				resourceHash["username"]=resource.user.username
 				resourceHash["licence_id"]=resource.licence_id
 				resourceHash["licence"]=resource.licence
 				resourceHash["description"]=resource.description
@@ -36,7 +35,7 @@ class Api::V1::ResourceController < ApplicationController
 		end
 	end
 	
-	# GET: api/v1/resource/:id?apikey=yourAPIKey
+	# GET: api/v1/resource/:id?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe  test apikey
 	def show
 		begin
 			resource = Resource.find(params[:id])
@@ -46,7 +45,6 @@ class Api::V1::ResourceController < ApplicationController
 			resourceHash["resource_id"]=resource.id
 			resourceHash["resource_type_id"]=resource.resource_type_id
 			resourceHash["resource_type"]=resource.resource_type
-			resourceHash["user_id"]=resource.user_id
 			resourceHash["username"]=resource.user.username
 			resourceHash["licence_id"]=resource.licence_id
 			resourceHash["licence"]=resource.licence
@@ -69,19 +67,18 @@ class Api::V1::ResourceController < ApplicationController
 		end
 	end
 	
-	# Comment:
-		# POST: api/v1/resource?apikey=yourAPIKey
-		# JSON: {
-		#   "resource": {
-		#     "name":"Name of resource",
-		#     "resourcetype":"Resource type",
-		#     "licencetype":"Licence type",
-		#     "username":"Owner of resource"
-		#     "description":"Resource description",
-		#     "url":"Resource location",
-		#     "tags":[Array of resource tags]
-		#   }
-		# }
+	# @TODO: validate parameters.
+	# POST: api/v1/resource?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe&username=oskar  testing parameters
+	# JSON: {
+	#   "resource": {
+	#     "name":"Name of resource",
+	#     "resourcetype":"Resource type",
+	#     "licencetype":"Licence type",
+	#     "description":"Resource description",
+	#     "url":"Resource location",
+	#     "tags":[Array of resource tags]
+	#   }
+	# }
 	def create
 		if params[:resource] != nil
 			resourcetype = ResourceType.find_or_create_by_resource_type(params[:resource][:resourcetype])
@@ -90,7 +87,7 @@ class Api::V1::ResourceController < ApplicationController
 			name = params[:resource][:name]
 			url = params[:resource][:url]
 			tags = params[:resource][:tags]
-			user = User.find_by_username(params[:resource][:username])
+			user = User.find_by_username(params[:username])
 			
 			resource = Resource.new
 			resource.name = name
@@ -122,12 +119,59 @@ class Api::V1::ResourceController < ApplicationController
 		end
 	end
 	
-	# PUT: api/v1/resource/:id?apikey=yourAPIKey
+	# PUT: api/v1/resource/:id?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe&username=oskar  testing parameters
 	def update
-		render :nothing => true, :status => 404
+		begin
+			if params[:resource].blank? == false
+				resource = Resource.find(params[:id])
+				if params[:resource][:resourcetype].blank? == false
+					resource_type = ResourceType.find_or_create_by_resource_type(params[:resource][:resourcetype])
+					resource.resource_type_id = resource_type.id
+				end
+				if params[:resource][:licencetype].blank? == false
+					licence = Licence.find_or_create_by_licence_type(params[:resource][:licencetype])
+					resource.licence_id = licence.id
+				end
+				if params[:resource][:description].blank? == false
+					resource.description = params[:resource][:description]
+				end
+				if params[:resource][:url].blank? == false
+					resource.url = params[:resource][:url]
+				end
+				if params[:resource][:name].blank? == false
+					resource.name = params[:resource][:name]
+				end
+				if params[:resource][:tags].blank? == false
+					tags = params[:resource][:tags]
+					tags.each do |tag|
+						tagInfo = Tag.find_or_create_by_tag(tag)
+						resource.tags << tagInfo
+					end
+				end
+				resource.save
+				render :nothing => true, :status => 200
+			else
+				errorHash = Hash.new
+				errorHash["statuscode"] = 400
+				errorHash["Errormessage"] = "'resource' element missing in request body"
+				respond_to do |f|
+					f.json { render json: errorHash, :status => 400 }
+					f.xml { render xml: errorHash, :status => 400 }
+				end
+			end
+		rescue
+			errorHash = Hash.new
+			errorHash["statuscode"] = 404
+			errorHash["Errormessage"] = "Did not find the requested resource"
+			respond_to do |f|
+				f.json { render json: errorHash, :status => 404 }
+				f.xml { render xml: errorHash, :status => 404 }
+			end
+		end		
 	end
 	
-	# DELETE: api/v1/resource/:id?apikey=yourAPIKey
+	# @TODO: validate parameters.
+	# DELETE: api/v1/resource/:id?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe&username=oskar  testing parameters
 	def destroy
 		begin
 			resource = Resource.find(params[:id])
