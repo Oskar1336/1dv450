@@ -57,6 +57,8 @@ TOERHWebAPI::Application.routes.draw do
     namespace :v1 do
       resources :resource, :defaults => { :format => "json" }
       resources :tag, :defaults => { :format => "json" }
+      resources :licence, :defaults => { :format => "json" }
+      resources :resourcetype, :defaults => { :format => "json" }
     end
   end
 end

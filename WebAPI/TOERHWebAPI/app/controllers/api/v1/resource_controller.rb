@@ -64,7 +64,7 @@ class Api::V1::ResourceController < ApplicationController
 				resource.description = description
 				resource.url = url
 				resource.created_at = DateTime.now
-				resource.updated_at = DateTime.now			
+				resource.updated_at = DateTime.now
 				tags.each do |tag|
 					tagInfo = Tag.find_or_create_by_tag(tag)
 					resource.tags << tagInfo
@@ -126,6 +126,7 @@ class Api::V1::ResourceController < ApplicationController
 				end
 				user = User.find_by_username(@@current_username)
 				if user.id == resource.user_id
+					resource.updated_at = DateTime.now
 					resource.save
 					respond_to do |f|
 						f.json { render json: generateResourceHash(resource), :status => 201 }
