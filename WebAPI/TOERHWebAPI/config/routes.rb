@@ -59,6 +59,7 @@ TOERHWebAPI::Application.routes.draw do
       resources :tag, :defaults => { :format => "json" }
       resources :licence, :defaults => { :format => "json" }
       resources :resourcetype, :defaults => { :format => "json" }
+      resources :user, :defaults => { :format => "json" }
     end
   end
 end

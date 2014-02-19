@@ -2,22 +2,32 @@ class Api::V1::ResourceController < ApplicationController
 	before_filter :validateApiKey
 	before_filter :validateUser, :except => [:index, :show]
 	
-	# GET: api/v1/resource?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe
+	# GET: api/v1/resource?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe&resourcename=Test
 	def index
 		resources = Resource.all
+		if params[:resourcename].blank? == false
+			q = "%#{params[:resourcename]}%"		
+			resources = Resource.where("name LIKE ?", q)
+		end
 		if resources != nil
 			resultArray = Array.new
+			resultHash = Hash.new
 			resources.each do |resource|
 				resultArray << generateResourceHash(resource)
 			end
+			resultHash["status"]=200
+			resultHash["resources"]=resultArray
 			respond_to do |f|
-				f.json { render json: resultArray, :status => 200 }
-				f.xml { render xml: resultArray, :status => 200 }
+				f.json { render json: resultHash, :status => 200 }
+				f.xml { render xml: resultHash, :status => 200 }
 			end
 		else
+			errorHash = Hash.new
+			errorHash["statuscode"] = 404
+			errorHash["errormessage"] = "Found no resources"
 			respond_to do |f|
-				f.json { render json: "Found no resources", :status => 404 }
-				f.xml { render xml: "Found no resources", :status => 404 }
+				f.json { render json: errorHash, :status => 404 }
+				f.xml { render xml: errorHash, :status => 404 }
 			end
 		end
 	end
@@ -26,15 +36,17 @@ class Api::V1::ResourceController < ApplicationController
 	def show
 		begin
 			resource = Resource.find(params[:id])
-			resourceHash = generateResourceHash(resource)
+			resultHash = Hash.new
+			resultHash["status"]=200
+			resultHash["resource"]=generateResourceHash(resource)
 			respond_to do |f|
-				f.json { render json: resourceHash, :status => 200 }
-				f.xml { render xml: resourceHash, :status => 200 }
+				f.json { render json: resultHash, :status => 200 }
+				f.xml { render xml: resultHash, :status => 200 }
 			end
 		rescue
 			errorHash = Hash.new
 			errorHash["statuscode"] = 404
-			errorHash["Errormessage"] = "Resource not found"
+			errorHash["errormessage"] = "Resource not found"
 			respond_to do |f|
 				f.json { render json: errorHash, :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
@@ -70,27 +82,29 @@ class Api::V1::ResourceController < ApplicationController
 					resource.tags << tagInfo
 				end
 				resource.save
-				
+				resultHash = Hash.new
+				resultHash["status"]=201
+				resultHash["resource"]=generateResourceHash(resource)
 				respond_to do |f|
-					f.json { render json: generateResourceHash(resource), :status => 201 }
-					f.xml { render xml: generateResourceHash(resource), :status => 201 }
+					f.json { render json: resultHash, :status => 201 }
+					f.xml { render xml: resultHash, :status => 201 }
 				end
 			else
 				errorHash = Hash.new
-				errorHash["statuscode"] = 400
-				errorHash["Errormessage"] = "Required parameters missing"
+				errorHash["status"] = 400
+				errorHash["errormessage"] = "Required parameters missing"
 				respond_to do |f|
-					f.json { render json: errorHash, :status => 404 }
-					f.xml { render xml: errorHash, :status => 404 }
+					f.json { render json: errorHash, :status => 400 }
+					f.xml { render xml: errorHash, :status => 400 }
 				end
 			end
 		else
 			errorHash = Hash.new
-			errorHash["statuscode"] = 404
-			errorHash["Errormessage"] = "Check your JSON body, resource parameter not found"
+			errorHash["status"] = 400
+			errorHash["errormessage"] = "Check your JSON body, resource parameter not found"
 			respond_to do |f|
-				f.json { render json: errorHash, :status => 404 }
-				f.xml { render xml: errorHash, :status => 404 }
+				f.json { render json: errorHash, :status => 400 }
+				f.xml { render xml: errorHash, :status => 400 }
 			end
 		end
 	end
@@ -128,14 +142,17 @@ class Api::V1::ResourceController < ApplicationController
 				if user.id == resource.user_id
 					resource.updated_at = DateTime.now
 					resource.save
+					resultHash = Hash.new
+					resultHash["status"]=200
+					resultHash["resource"]=generateResourceHash(resource)
 					respond_to do |f|
-						f.json { render json: generateResourceHash(resource), :status => 201 }
-						f.xml { render xml: generateResourceHash(resource), :status => 201 }
+						f.json { render json: resultHash, :status => 200 }
+						f.xml { render xml: resultHash, :status => 200 }
 					end
 				else
 					errorHash = Hash.new
-					errorHash["statuscode"] = 403
-					errorHash["Errormessage"] = "Current user does not have access to this resource"
+					errorHash["status"] = 403
+					errorHash["errormessage"] = "Current user does not have access to this resource"
 					respond_to do |f|
 						f.json { render json: errorHash, :status => 403 }
 						f.xml { render xml: errorHash, :status => 403 }
@@ -143,8 +160,8 @@ class Api::V1::ResourceController < ApplicationController
 				end
 			else
 				errorHash = Hash.new
-				errorHash["statuscode"] = 400
-				errorHash["Errormessage"] = "'resource' element missing in request body"
+				errorHash["status"] = 400
+				errorHash["errormessage"] = "'resource' element missing in request body"
 				respond_to do |f|
 					f.json { render json: errorHash, :status => 400 }
 					f.xml { render xml: errorHash, :status => 400 }
@@ -152,8 +169,8 @@ class Api::V1::ResourceController < ApplicationController
 			end
 		rescue
 			errorHash = Hash.new
-			errorHash["statuscode"] = 404
-			errorHash["Errormessage"] = "Did not find the requested resource"
+			errorHash["status"] = 404
+			errorHash["errormessage"] = "Did not find the requested resource"
 			respond_to do |f|
 				f.json { render json: errorHash, :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
@@ -174,14 +191,14 @@ class Api::V1::ResourceController < ApplicationController
 				end
 			else
 				errorHash = Hash.new
-				errorHash["statuscode"] = 403
-				errorHash["Errormessage"] = "User unauthorized"
+				errorHash["status"] = 403
+				errorHash["errormessage"] = "User unauthorized"
 				render :json => errorHash, :status => 403
 			end
 		rescue
 			errorHash = Hash.new
-			errorHash["statuscode"] = 404
-			errorHash["Errormessage"] = "Resource not found"
+			errorHash["status"] = 404
+			errorHash["errormessage"] = "Resource not found"
 			render :json => errorHash, :status => 404
 		end
 	end

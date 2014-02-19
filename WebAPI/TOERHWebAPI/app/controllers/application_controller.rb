@@ -9,20 +9,57 @@ class ApplicationController < ActionController::Base
   	@@current_username = ""
   
   # Resource
-	  def generateResourceHash(resource)
-	  	resourceHash = Hash.new
-			resourceHash["statuscode"]=200
-			resourceHash["resource_id"]=resource.id
-			resourceHash["resource_type_id"]=resource.resource_type_id
-			resourceHash["resource_type"]=resource.resource_type
-			resourceHash["username"]=resource.user.username
-			resourceHash["licence_id"]=resource.licence_id
-			resourceHash["licence"]=resource.licence
-			resourceHash["description"]=resource.description
-			resourceHash["url"]=resource.url
-			resourceHash["tags"]=resource.tags
-			return resourceHash
-	  end
+  def generateResourceHash(resource)
+  	resourceHash = Hash.new
+  	tagArray = Array.new
+  	resource.tags.each do |tag|
+  		tagArray<<generateTagHash(tag)
+  	end
+		resourceHash["resource_id"]=resource.id
+		resourceHash["resource_type"]=generateResourceTypeHash(resource.resource_type)
+		resourceHash["user"]=generateUserHash(resource.user)
+		resourceHash["licence"]=generateLicenceHash(resource.licence)
+		resourceHash["description"]=resource.description
+		resourceHash["url"]=resource.url
+		resourceHash["tags"]=tagArray
+    resourceHash["created"]=resource.created_at
+		return resourceHash
+  end
+  
+  # Licence
+  def generateLicenceHash(licence)
+  	licenceHash = Hash.new
+		licenceHash["id"]=licence.id
+		licenceHash["licence"]=licence.licence_type
+		return licenceHash
+  end
+  
+  # Resourcetype
+  def generateResourceTypeHash(resourcetype)
+  	resourcetypeHash = Hash.new
+  	resourcetypeHash["id"]=resourcetype.id
+  	resourcetypeHash["resourcetype"]=resourcetype.resource_type
+  	return resourcetypeHash
+  end
+  
+  # User
+  def generateUserHash(user)
+  	userHash = Hash.new
+		userHash["firstname"]=user.firstname
+		userHash["lastname"]=user.lastname
+		userHash["username"]=user.username
+		userHash["email"]=user.email
+		return userHash
+  end
+  
+  # Tag
+  def generateTagHash(tag)
+  	tagHash = Hash.new
+  	tagHash["id"]=tag.id
+  	tagHash["tag"]=tag.tag
+  	return tagHash
+  end
+  
   
   # User validation
   	def validateApiKey

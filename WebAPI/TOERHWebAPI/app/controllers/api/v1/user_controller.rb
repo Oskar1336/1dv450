@@ -1,17 +1,17 @@
-class Api::V1::LicenceController < ApplicationController
+class Api::V1::UserController < ApplicationController
 	before_filter :validateApiKey
 	
-	# GET: api/v1/licence?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg
+	# GET: api/v1/tag?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg
 	def index
-		licences = Licence.all
-		if licences != nil
+		users = User.all
+		if users != nil
 			resultHash = Hash.new
 			resultArray = Array.new
-			licences.each do |licence|
-				resultArray<<generateLicenceHash(licence)
+			users.each do |user|
+				resultArray << generateUserHash(user)
 			end
-			resultHash["status"]=200
-			resultHash["licences"]=resultArray
+			resultHash["status"] = 200
+			resultHash["users"] = resultArray
 			respond_to do |f|
 				f.json { render json: resultHash, :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
@@ -19,7 +19,7 @@ class Api::V1::LicenceController < ApplicationController
 		else
 			errorHash = Hash.new
 			errorHash["status"] = 404
-			errorHash["errormessage"] = "Found no licences"
+			errorHash["errormessage"] = "Found no users"
 			respond_to do |f|
 				f.json { render json: errorHash, :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
@@ -27,26 +27,28 @@ class Api::V1::LicenceController < ApplicationController
 		end
 	end
 	
-	# GET: api/v1/licence/:id?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg
+	# GET :api/v1/tag/:username?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg
 	def show
-		begin
-			licence = Licence.find(params[:id])
-			resultArray = Array.new
+		user = User.find_by_username(params[:id])
+		if user != nil
 			resultHash = Hash.new
-			licence.resources.each do |resource|
+			resultArray = Array.new
+			user.resources.each do |resource|
 				resultArray << generateResourceHash(resource)
 			end
+			
 			resultHash["status"]=200
-			resultHash["licenceid"]=generateLicenceHash(licence)
+			resultHash["username"]=user.username
 			resultHash["resources"]=resultArray
+			
 			respond_to do |f|
 				f.json { render json: resultHash, :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
 			end
-		rescue
+		else
 			errorHash = Hash.new
 			errorHash["status"] = 404
-			errorHash["errormessage"] = "Found no such licence"
+			errorHash["errormessage"] = "Found no such user"
 			respond_to do |f|
 				f.json { render json: errorHash, :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
