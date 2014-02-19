@@ -23,7 +23,7 @@ class Api::V1::ResourceController < ApplicationController
 			end
 		else
 			errorHash = Hash.new
-			errorHash["statuscode"] = 404
+			errorHash["status"] = 404
 			errorHash["errormessage"] = "Found no resources"
 			respond_to do |f|
 				f.json { render json: errorHash, :status => 404 }
@@ -45,7 +45,7 @@ class Api::V1::ResourceController < ApplicationController
 			end
 		rescue
 			errorHash = Hash.new
-			errorHash["statuscode"] = 404
+			errorHash["status"] = 404
 			errorHash["errormessage"] = "Resource not found"
 			respond_to do |f|
 				f.json { render json: errorHash, :status => 404 }
@@ -81,13 +81,22 @@ class Api::V1::ResourceController < ApplicationController
 					tagInfo = Tag.find_or_create_by_tag(tag)
 					resource.tags << tagInfo
 				end
-				resource.save
-				resultHash = Hash.new
-				resultHash["status"]=201
-				resultHash["resource"]=generateResourceHash(resource)
-				respond_to do |f|
-					f.json { render json: resultHash, :status => 201 }
-					f.xml { render xml: resultHash, :status => 201 }
+				if resource.save
+					resultHash = Hash.new
+					resultHash["status"]=201
+					resultHash["resource"]=generateResourceHash(resource)
+					respond_to do |f|
+						f.json { render json: resultHash, :status => 201 }
+						f.xml { render xml: resultHash, :status => 201 }
+					end
+				else
+					errorHash = Hash.new
+					errorHash["status"] = 400
+					errorHash["errormessage"] = "Parameters did not pass validation"
+					respond_to do |f|
+						f.json { render json: errorHash, :status => 400 }
+						f.xml { render xml: errorHash, :status => 400 }
+					end
 				end
 			else
 				errorHash = Hash.new
@@ -141,13 +150,22 @@ class Api::V1::ResourceController < ApplicationController
 				user = User.find_by_username(@@current_username)
 				if user.id == resource.user_id
 					resource.updated_at = DateTime.now
-					resource.save
-					resultHash = Hash.new
-					resultHash["status"]=200
-					resultHash["resource"]=generateResourceHash(resource)
-					respond_to do |f|
-						f.json { render json: resultHash, :status => 200 }
-						f.xml { render xml: resultHash, :status => 200 }
+					if resource.save
+						resultHash = Hash.new
+						resultHash["status"]=200
+						resultHash["resource"]=generateResourceHash(resource)
+						respond_to do |f|
+							f.json { render json: resultHash, :status => 200 }
+							f.xml { render xml: resultHash, :status => 200 }
+						end
+					else
+						errorHash = Hash.new
+						errorHash["status"] = 400
+						errorHash["errormessage"] = "Parameters did not pass validation"
+						respond_to do |f|
+							f.json { render json: errorHash, :status => 400 }
+							f.xml { render xml: errorHash, :status => 400 }
+						end
 					end
 				else
 					errorHash = Hash.new

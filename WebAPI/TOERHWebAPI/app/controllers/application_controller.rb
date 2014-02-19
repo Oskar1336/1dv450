@@ -4,9 +4,9 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery
-  
+
   protected
-  	@@current_username = ""
+	@@current_username = ""
   
   # Resource
   def generateResourceHash(resource)
@@ -16,13 +16,14 @@ class ApplicationController < ActionController::Base
   		tagArray<<generateTagHash(tag)
   	end
 		resourceHash["resource_id"]=resource.id
+    resourceHash["resource_name"]=resource.name
+    resourceHash["description"]=resource.description
+    resourceHash["url"]=resource.url
+    resourceHash["created"]=resource.created_at
 		resourceHash["resource_type"]=generateResourceTypeHash(resource.resource_type)
 		resourceHash["user"]=generateUserHash(resource.user)
 		resourceHash["licence"]=generateLicenceHash(resource.licence)
-		resourceHash["description"]=resource.description
-		resourceHash["url"]=resource.url
 		resourceHash["tags"]=tagArray
-    resourceHash["created"]=resource.created_at
 		return resourceHash
   end
   
@@ -66,8 +67,8 @@ class ApplicationController < ActionController::Base
   		key = ApiKey.find_by key: params[:apikey]
 			if key == nil
 				errorHash = Hash.new
-				errorHash["statuscode"] = 401
-				errorHash["Errormessage"] = "Application apikey is missing or it's wrong"
+				errorHash["status"] = 401
+				errorHash["errormessage"] = "Application apikey is missing or it's wrong"
 				respond_to do |f|
 					f.json { render json: errorHash, :status => 401 }
 					f.xml { render xml: errorHash, :status => 401 }
@@ -84,4 +85,23 @@ class ApplicationController < ActionController::Base
 				User.find_by_username(username).password == Digest::SHA512.hexdigest(password)
 			end
   	end
+    
+    def auth_admin
+      if session[:username]
+        return true
+      else
+        flash[:loginnotice] = "You must be signed in as admin to view the requested page."
+        redirect_to :controller => "login", :action => "login"
+        return false
+      end
+    end
+    
+    def save_login_state
+      if session[:username]
+        redirect_to :controller => "admin", :action => "index"
+        return false
+      else
+        return true
+      end
+    end
 end

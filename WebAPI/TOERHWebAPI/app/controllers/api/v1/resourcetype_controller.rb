@@ -1,7 +1,7 @@
 class Api::V1::ResourcetypeController < ApplicationController
 	before_filter :validateApiKey
 	
-	# GET: api/v1/resourcetype?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg
+	# GET: api/v1/resourcetype?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&resourcetype=Picture
 	def index
 		resourcetypes = ResourceType.all
 		if resourcetypes != nil
@@ -29,16 +29,23 @@ class Api::V1::ResourcetypeController < ApplicationController
 	
 	# GET: api/v1/resourcetype/:resourcetype?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg
 	def show
-		resourcetype = ResourceType.find_by_resource_type(params[:id])
-		if resourcetype != nil
+		q = "%#{params[:resourcetype]}%"
+		resourcetypes = ResourceType.where("resource_type LIKE ?", q)
+		if resourcetypes.any?
 			resultHash = Hash.new
 			resultArray = Array.new
-			resourcetype.resources.each do |resource|
-				resultArray << generateResourceHash(resource)
+			resourcetypes.each do |resourcetype|
+				tempHash = Hash.new
+				tempArray = Array.new
+				resourcetype.resources.each do |resource|
+					tempArray<<generateResourceHash(resource)
+				end
+				tempHash["resourcetype"]=generateResourceTypeHash(resourcetype)
+				tempHash["resources"]=tempArray
+				resultArray<<tempHash
 			end
 			resultHash["status"]=200
-			resultHash["resourcetype"]=generateResourceTypeHash(resourcetype)
-			resultHash["resources"]=resultArray
+			resultHash["result"]=resultArray
 			respond_to do |f|
 				f.json { render json: resultHash, :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }

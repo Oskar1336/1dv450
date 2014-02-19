@@ -32,7 +32,7 @@ group :doc do
   gem 'sdoc'
 end
 
-# Add 
+# Adds https
 gem 'grosser-ssl_requirement', :require => 'ssl_requirement'
 
 # Use ActiveModel has_secure_password

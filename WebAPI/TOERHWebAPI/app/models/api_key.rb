@@ -3,4 +3,5 @@ class ApiKey < ActiveRecord::Base
 	
 	# Validation
 	validates_associated :application
+	validates :key, :uniqueness => true
 end

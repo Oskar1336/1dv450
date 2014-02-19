@@ -1,0 +1,29 @@
+<h1><%= @app.application_name %></h1>
+<p>
+	
+	<%= flash[:adminnotice] %>
+	
+	<%= form_for :app, :url => { :controller => "admin", :action => "update" }, method: :patch do |f| %>
+		<p>
+			<ul class="errorList">
+				<% @app.errors.full_messages.each do |msg| %>
+					<li><%= msg %></li>
+				<% end %>
+			</ul>
+		</p>
+		<p>
+			<%= f.label :application_name %><br>
+			<%= f.text_field :application_name %>
+		</p>	
+		<p>
+			<%= f.label :contact_mail %><br>
+			<%= f.text_field :contact_mail %>
+		</p>
+		<p>
+			<%= f.submit %>
+		</p>
+	<% end %>
+</p>
+<p>
+	<%= link_to "Back to startpage", :controller => "admin", :action => "index" %>
+</p>
