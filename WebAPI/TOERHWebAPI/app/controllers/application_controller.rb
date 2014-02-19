@@ -81,7 +81,7 @@ class ApplicationController < ActionController::Base
   	def validateUser
   		authenticate_or_request_with_http_basic do |username, password|
 				@@current_username = username
-				User.find_by_username(username).password == Digest::SHA512.hexdigest(password) && params[:username] == username
+				User.find_by_username(username).password == Digest::SHA512.hexdigest(password)
 			end
   	end
 end
