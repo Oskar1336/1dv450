@@ -327,8 +327,8 @@ http://localhost:3000/api/v1/licence/:id?apikey=yourapikey
   "resources": [
     {
       "resource_id": 7,
-      "resource_name": "Test7",
-      "description": "Test7",
+      "resource_name": "My Document",
+      "description": "Document",
       "url": "/test7",
       "created": "2014-02-12T22:49:55.000Z",
       "resource_type": {
@@ -360,7 +360,78 @@ Om den efterfrågade resursen inte finns så returneras en 404 Not Found.
 
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 ###Resourcetype
+####Hämta alla resurstyper
+```
+http://localhost:3000/api/v1/resourcetype?apikey=yourapikey
+```
+#####Resultat
+```
+{
+  "status": 200,
+  "resourcetypes": [
+    {
+      "id": 1,
+      "resourcetype": "Picture"
+    },
+    ....
+  ]
+}
+```
+#####Error
+Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 
+Om inga resurstyper hittas så returneras en 404 Not Found.
+####Hämta alla resurser för en resurstyp
+:resourcetype är en sök sträng. Där skriver man in vilken resurstyp man vill söka efter och hämtar alla resurser för den resurstypen.
+```
+http://localhost:3000/api/v1/resourcetype/:resourcetype?apikey=yourapikey
+```
+#####Resultat
+```
+{
+  "status": 200,
+  "result": [
+    {
+      "resourcetype": {
+        "id": 1,
+        "resourcetype": "Picture"
+      },
+      "resources": [
+        {
+          "resource_id": 11,
+          "resource_name": "Updated pic",
+          "description": "This is a updated picture",
+          "url": "/testpic",
+          "created": "2014-02-17T21:44:19.097Z",
+          "resource_type": {
+            "id": 1,
+            "resourcetype": "Picture"
+          },
+          "user": {
+            "firstname": "Testuser",
+            "lastname": "Testing",
+            "username": "test",
+            "email": "test@test.se"
+          },
+          "licence": {
+            "id": 1,
+            "licence": "Attribution CC BY"
+          },
+          "tags": [
+            {
+              "tag": "Helpfull"
+            }
+          ]
+        },
+        ....
+      ]
+    }
+}
+```
+#####Error
+Om den efterfrågade resursen inte finns så returneras en 404 Not Found.
+
+Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 
 
 

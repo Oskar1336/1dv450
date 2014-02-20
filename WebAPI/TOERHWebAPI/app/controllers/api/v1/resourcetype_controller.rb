@@ -29,7 +29,7 @@ class Api::V1::ResourcetypeController < ApplicationController
 	
 	# GET: api/v1/resourcetype/:resourcetype?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg
 	def show
-		q = "%#{params[:resourcetype]}%"
+		q = "%#{params[:id]}%"
 		resourcetypes = ResourceType.where("resource_type LIKE ?", q)
 		if resourcetypes.any?
 			resultHash = Hash.new
