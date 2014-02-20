@@ -5,10 +5,11 @@ Målgruppen till denna tjänst är främst lärare och utbildare som använder s
 ##Exempel
 ###Postman
 Här finns det en postman collection som man kan importera för att testa apiet.
-[Postman collection](https://www.getpostman.com/collections/f2092af5b7d587bdf6fd)
+[Postman collection](https://www.getpostman.com/collections/730645965917583b8092)
 
 ###Resurser
 ####Hämta alla resurser
+Man kan välja att lägga till parametern &limit=int i url:en för att välja de översta resurserna.
 ```
 http://localhost:3000/api/v1/resource?apikey=yourapikey
 ```
@@ -92,6 +93,7 @@ Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 
 Om resursen inte hittas så returneras en 404 Not Found samt en error body.
 ####Sök efter resurs
+Man kan välja att lägga till parametern &limit=int i url:en för att välja de översta resurserna.
 För att söka efter en resurs så krävs parametern resourcename. Man söker då på resursnamnet.
 ```
 http://localhost:3000/api/v1/resource?apikey=yourapikey&resourcename=pic
@@ -125,15 +127,7 @@ http://localhost:3000/api/v1/resource?apikey=yourapikey&resourcename=pic
         {
           "tag": "Picture"
         },
-        {
-          "tag": "Helpfull"
-        },
-        {
-          "tag": "Work"
-        },
-        {
-          "tag": "School"
-        }
+        ....
       ]
     },
     ....
@@ -292,6 +286,7 @@ Om parametern "resource" fattas så returneras en 400 Bad Request.
 Om användaren har fel inloggningsuppgifter så returneras en 401 Unauthorized.
 ###License
 ####Hämta alla licenser
+Man kan välja att lägga till parametern &limit=int i url:en för att välja de översta licenserna.
 ```
 http://localhost:3000/api/v1/licence?apikey=yourapikey
 ```
@@ -313,6 +308,7 @@ Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 
 Om inga licenser hittas så returneras en 404 Not Found.
 ####Hämta alla resurser för en license
+Man kan välja att lägga till parametern &limit=int i url:en för att välja antalet resurser som ska hämtas.
 ```
 http://localhost:3000/api/v1/licence/:id?apikey=yourapikey
 ```
@@ -361,6 +357,7 @@ Om den efterfrågade resursen inte finns så returneras en 404 Not Found.
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 ###Resourcetype
 ####Hämta alla resurstyper
+Man kan välja att lägga till parametern &limit=int i url:en för att välja de översta resurstyperna.
 ```
 http://localhost:3000/api/v1/resourcetype?apikey=yourapikey
 ```
@@ -382,6 +379,7 @@ Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 
 Om inga resurstyper hittas så returneras en 404 Not Found.
 ####Hämta alla resurser för en resurstyp
+Man kan välja att lägga till parametern &limit=int i url:en för att välja antalet resursertyper som ska hämtas.
 :resourcetype är en sök sträng. Där skriver man in vilken resurstyp man vill söka efter och hämtar alla resurser för den resurstypen.
 ```
 http://localhost:3000/api/v1/resourcetype/:resourcetype?apikey=yourapikey
@@ -434,6 +432,7 @@ Om den efterfrågade resursen inte finns så returneras en 404 Not Found.
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 ###Tag
 ####Hämta ut alla taggar
+Man kan välja att lägga till parametern &limit=int i url:en för att välja de översta taggarna.
 ```
 http://localhost:3000/api/v1/tag?apikey=yourapikey
 ```
@@ -454,6 +453,7 @@ Om inga taggar hittas så returneras en 404 Not Found.
 
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 ####Hämta ut alla resurser för en tag
+Man kan välja att lägga till parametern &limit=int i url:en för att välja antalet resurser som ska hämtas.
 :tag är en parameter där tagnamnet ska skrivas in.
 ```
 http://localhost:3000/api/v1/tag/:tag?apikey=yourapikey
@@ -510,6 +510,7 @@ Om den efterfrågade taggen inte finns så returneras en 404 Not Found.
 
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 ###User
+Man kan välja att lägga till parametern &limit=int i url:en för att välja de översta användarna.
 ####Hämta alla användare
 ```
 http://localhost:3000/api/v1/user?apikey=yourapikey
@@ -534,6 +535,7 @@ Om inga användare hittas så returneras en 404 Not Found.
 
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 ####Hämta alla resurser en användare äger
+Man kan välja att lägga till parametern &limit=int i url:en för att välja antalet resurser som ska hämtas.
 :username är en sträng som innehåller en användares användarnamn.
 ```
 http://localhost:3000/api/v1/user/:username?apikey=yourapikey

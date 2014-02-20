@@ -2,12 +2,21 @@ class Api::V1::ResourceController < ApplicationController
 	before_filter :validateApiKey
 	before_filter :validateUser, :except => [:index, :show]
 	
-	# GET: api/v1/resource?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe&resourcename=Test
+	# GET: api/v1/resource?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe&resourcename=Test&limit=10
 	def index
-		resources = Resource.all
+		resources = nil
+		if params[:limit].blank? == false
+			resources = Resource.all().limit(params[:limit].to_i)
+		else
+			resources = Resource.all
+		end
 		if params[:resourcename].blank? == false
-			q = "%#{params[:resourcename]}%"		
-			resources = Resource.where("name LIKE ?", q)
+			q = "%#{params[:resourcename]}%"
+			if params[:limit].blank? == false
+				resources = Resource.where("name LIKE ?", q).limit(params[:limit].to_i)
+			else
+				resources = Resource.where("name LIKE ?", q)
+			end
 		end
 		if resources != nil
 			resultArray = Array.new

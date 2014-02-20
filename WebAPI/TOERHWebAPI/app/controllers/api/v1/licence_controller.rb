@@ -1,9 +1,14 @@
 class Api::V1::LicenceController < ApplicationController
 	before_filter :validateApiKey
 	
-	# GET: api/v1/licence?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg
+	# GET: api/v1/licence?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10
 	def index
-		licences = Licence.all
+		licences = nil
+		if params[:limit]
+			licences = Licence.all().limit(params[:limit].to_i)
+		else
+			licences = Licence.all
+		end
 		if licences != nil
 			resultHash = Hash.new
 			resultArray = Array.new
@@ -27,13 +32,19 @@ class Api::V1::LicenceController < ApplicationController
 		end
 	end
 	
-	# GET: api/v1/licence/:id?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg
+	# GET: api/v1/licence/:id?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10
 	def show
 		begin
 			licence = Licence.find(params[:id])
 			resultArray = Array.new
 			resultHash = Hash.new
-			licence.resources.each do |resource|
+			resources = nil
+			if params[:limit]
+				resources = licence.resources.limit(params[:limit].to_i)
+			else
+				resources = licence.resources
+			end
+			resources.each do |resource|
 				resultArray << generateResourceHash(resource)
 			end
 			resultHash["status"]=200

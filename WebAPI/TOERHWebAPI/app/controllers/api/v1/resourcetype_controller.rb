@@ -1,9 +1,14 @@
 class Api::V1::ResourcetypeController < ApplicationController
 	before_filter :validateApiKey
 	
-	# GET: api/v1/resourcetype?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&resourcetype=Picture
+	# GET: api/v1/resourcetype?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&resourcetype=Picture&limit=10
 	def index
-		resourcetypes = ResourceType.all
+		resourcetypes = nil
+		if params[:limit]
+			resourcetypes = ResourceType.all().limit(params[:limit].to_i)
+		else
+			resourcetypes = ResourceType.all
+		end
 		if resourcetypes != nil
 			resultArray = Array.new
 			resultHash = Hash.new
@@ -27,10 +32,15 @@ class Api::V1::ResourcetypeController < ApplicationController
 		end
 	end
 	
-	# GET: api/v1/resourcetype/:resourcetype?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg
+	# GET: api/v1/resourcetype/:resourcetype?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10
 	def show
 		q = "%#{params[:id]}%"
-		resourcetypes = ResourceType.where("resource_type LIKE ?", q)
+		resourcetypes = nil
+		if params[:limit]
+			resourcetypes = ResourceType.where("resource_type LIKE ?", q).limit(params[:limit].to_i)
+		else
+			resourcetypes = ResourceType.where("resource_type LIKE ?", q)
+		end
 		if resourcetypes.any?
 			resultHash = Hash.new
 			resultArray = Array.new

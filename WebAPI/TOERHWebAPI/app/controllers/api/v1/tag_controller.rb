@@ -1,9 +1,14 @@
 class Api::V1::TagController < ApplicationController
 	before_filter :validateApiKey
 	
-	# GET: api/v1/tag?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg
+	# GET: api/v1/tag?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10
 	def index
-		tags = Tag.all
+		tags = nil
+		if params[:limit].blank? == false
+			tags = Tag.all().limit(params[:limit].to_i)
+		else
+			tags = Tag.all	
+		end
 		if tags != nil
 			resultHash = Hash.new
 			resultArray = Array.new
@@ -27,13 +32,19 @@ class Api::V1::TagController < ApplicationController
 		end
 	end
 	
-	# GET :api/v1/tag/:tag?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg
+	# GET :api/v1/tag/:tag?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10
 	def show
 		tag = Tag.find_by_tag(params[:id])
 		if tag != nil
 			resultArray = Array.new
 			resultHash = Hash.new
-			tag.resources.each do |resource|
+			resources = nil
+			if params[:limit].blank? == false
+				resources = tag.resources.limit(params[:limit].to_i)
+			else
+				resources = tag.resources
+			end
+			resources.each do |resource|
 				resultArray << generateResourceHash(resource)
 			end
 			resultHash["status"]=200
