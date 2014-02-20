@@ -48,6 +48,8 @@ http://localhost:3000/api/v1/resource?apikey=yourapikey
 }
 ```
 #####Error
+Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
+
 Om ingen resurs hittas så returneras en 404 Not Found samt en error body.
 ####Hämta ut en resurs
 ```
@@ -86,6 +88,8 @@ http://localhost:3000/api/v1/resource/:id?apikey=yourapikey
 }
 ```
 #####Error
+Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
+
 Om resursen inte hittas så returneras en 404 Not Found samt en error body.
 ####Sök efter resurs
 För att söka efter en resurs så krävs parametern resourcename. Man söker då på resursnamnet.
@@ -137,6 +141,8 @@ http://localhost:3000/api/v1/resource?apikey=yourapikey&resourcename=pic
 }
 ```
 #####Error
+Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
+
 Om ingen resurs hittas så returneras en 404 Not Found samt en error body.
 ####Ta bort en resurs
 För att ta bort en resurs så måste den auktoriserad användaren äga resursen.
@@ -146,8 +152,12 @@ http://localhost:3000/api/v1/resource/:id?apikey=yourapikey
 #####Resultat
 Här returneras en 204 no content status.
 #####Error
+Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
+
 Om användaren inte äger resursen så returneras en 403 Forbidden.
+
 Om resursen inte hittas så returneras en 404 Not Found.
+
 Om användaren har fel inloggningsuppgifter så returneras en 401 Unauthorized.
 ####Ändra en resurs
 ```
@@ -204,10 +214,16 @@ Man får tillbaka den uppdaterade resursen.
 }
 ```
 #####Error
+Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
+
 Om parameternas värde inte går igenom valideringen så returneras en 400 Bad Request.
+
 Om den auktoriserade användaren inte äger resursen som ska ändras så returneras en 403 Forbidden.
+
 Om parametern "resource" fattas så returneras en 400 Bad Request.
+
 Om resursen inte finns så returneras en 404 Not Found.
+
 Om användaren har fel inloggningsuppgifter så returneras en 401 Unauthorized.
 ####Skapa en resurs
 ```
@@ -265,7 +281,33 @@ När man ska skapa en resurs så måste man ha med "resourcetype", "licencetype"
 }
 ```
 #####Error
+Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
+
 Om parameternas värde inte går igenom valideringen så returneras en 400 Bad Request.
+
 Om parametrar som måste finnas saknas så returneras en 400 Bad Request.
+
 Om parametern "resource" fattas så returneras en 400 Bad Request.
+
 Om användaren har fel inloggningsuppgifter så returneras en 401 Unauthorized.
+###License
+####Hämta alla licenser
+```
+http://localhost:3000/api/v1/licence?apikey=yourapikey
+```
+#####Resultat
+```
+{
+  "status": 200,
+  "licences": [
+    {
+      "id": 1,
+      "licence": "Attribution CC BY"
+    },
+    ....
+  ]
+}
+```
+#####Error
+Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
+Om inga licenser hittas så returneras en 404 Not Found.
