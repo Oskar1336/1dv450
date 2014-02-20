@@ -4,5 +4,5 @@ class Resource < ActiveRecord::Base
 	belongs_to :licence
 	belongs_to :resource_type
 	
-	validates :resource_type_id, :user_id, :licence_id, :name, :description, :url, :presence => true
+	validates :resource_type_id, :user_id, :licence_id, :name, :url, :presence => true
 end

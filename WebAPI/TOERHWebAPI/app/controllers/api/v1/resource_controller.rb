@@ -59,12 +59,15 @@ class Api::V1::ResourceController < ApplicationController
 		if params[:resource].blank? == false
 			resourcetypeparam = params[:resource][:resourcetype]
 			licencetypeparam = params[:resource][:licencetype]
-			description = params[:resource][:description]
+			description = " "
+			if params[:resource][:description].blank? == false
+				description = params[:resource][:description]
+			end
 			url = params[:resource][:url]
 			tags = params[:resource][:tags]
 			name = params[:resource][:name]
 			
-			if name.blank? == false && licencetypeparam.blank? == false && resourcetypeparam.blank? == false
+			if name.blank? == false && licencetypeparam.blank? == false && resourcetypeparam.blank? == false && url.blank? == false
 				user = User.find_by_username(@@current_username)
 				licencetype = Licence.find_or_create_by_licence_type(licencetypeparam)
 				resourcetype = ResourceType.find_or_create_by_resource_type(resourcetypeparam)
@@ -110,7 +113,7 @@ class Api::V1::ResourceController < ApplicationController
 		else
 			errorHash = Hash.new
 			errorHash["status"] = 400
-			errorHash["errormessage"] = "Check your JSON body, resource parameter not found"
+			errorHash["errormessage"] = "Check your JSON body, 'resource' parameter not found"
 			respond_to do |f|
 				f.json { render json: errorHash, :status => 400 }
 				f.xml { render xml: errorHash, :status => 400 }
