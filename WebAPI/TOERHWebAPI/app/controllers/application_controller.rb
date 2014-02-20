@@ -56,7 +56,6 @@ class ApplicationController < ActionController::Base
   # Tag
   def generateTagHash(tag)
   	tagHash = Hash.new
-  	tagHash["id"]=tag.id
   	tagHash["tag"]=tag.tag
   	return tagHash
   end
