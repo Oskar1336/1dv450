@@ -310,4 +310,58 @@ http://localhost:3000/api/v1/licence?apikey=yourapikey
 ```
 #####Error
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
+
 Om inga licenser hittas så returneras en 404 Not Found.
+####Hämta alla resurser för en license
+```
+http://localhost:3000/api/v1/licence/:id?apikey=yourapikey
+```
+#####Resultat
+```
+{
+  "status": 200,
+  "licenceid": {
+    "id": 1,
+    "licence": "Attribution CC BY"
+  },
+  "resources": [
+    {
+      "resource_id": 7,
+      "resource_name": "Test7",
+      "description": "Test7",
+      "url": "/test7",
+      "created": "2014-02-12T22:49:55.000Z",
+      "resource_type": {
+        "id": 7,
+        "resourcetype": "Excel"
+      },
+      "user": {
+        "firstname": "Sarah",
+        "lastname": "Connor",
+        "username": "sarah",
+        "email": "sarah@terminator.com"
+      },
+      "licence": {
+        "id": 1,
+        "licence": "Attribution CC BY"
+      },
+      "tags": [
+        {
+          "tag": "Optional"
+        }
+      ]
+    },
+    ....
+  ]
+}
+```
+#####Error
+Om den efterfrågade resursen inte finns så returneras en 404 Not Found.
+
+Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
+###Resourcetype
+
+
+
+
+
