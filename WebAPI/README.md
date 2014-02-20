@@ -5,7 +5,7 @@ Målgruppen till denna tjänst är främst lärare och utbildare som använder s
 ##Exempel
 ###Postman
 Här finns det en postman collection som man kan importera för att testa apiet.
-[https://www.getpostman.com/collections/1d5278291cc9110e115a](Postman collection)
+[Postman collection](https://www.getpostman.com/collections/1d5278291cc9110e115a)
 
 ###Resurser
 
