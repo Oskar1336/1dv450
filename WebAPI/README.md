@@ -5,7 +5,7 @@ Målgruppen till denna tjänst är främst lärare och utbildare som använder s
 ##Exempel
 ###Postman
 Här finns det en postman collection som man kan importera för att testa apiet.
-[Postman collection](https://www.getpostman.com/collections/1d5278291cc9110e115a)
+[Postman collection](https://www.getpostman.com/collections/f2092af5b7d587bdf6fd)
 
 ###Resurser
 ####Hämta alla resurser
@@ -408,10 +408,10 @@ http://localhost:3000/api/v1/resourcetype/:resourcetype?apikey=yourapikey
             "resourcetype": "Picture"
           },
           "user": {
-            "firstname": "Testuser",
-            "lastname": "Testing",
-            "username": "test",
-            "email": "test@test.se"
+            "firstname": "Sarah",
+            "lastname": "Connor",
+            "username": "sarah",
+            "email": "sarah@terminator.se"
           },
           "licence": {
             "id": 1,
@@ -432,7 +432,150 @@ http://localhost:3000/api/v1/resourcetype/:resourcetype?apikey=yourapikey
 Om den efterfrågade resursen inte finns så returneras en 404 Not Found.
 
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
+###Tag
+####Hämta ut alla taggar
+```
+http://localhost:3000/api/v1/tag?apikey=yourapikey
+```
+#####Resultat
+```
+{
+  "status": 200,
+  "tags": [
+    {
+      "tag": "Picture"
+    },
+    ....
+  ]
+}
+```
+#####Error
+Om inga taggar hittas så returneras en 404 Not Found.
 
+Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
+####Hämta ut alla resurser för en tag
+:tag är en parameter där tagnamnet ska skrivas in.
+```
+http://localhost:3000/api/v1/tag/:tag?apikey=yourapikey
+```
+#####Resultat
+```
+{
+  "status": 200,
+  "tag": {
+    "tag": "Picture"
+  },
+  "resources": [
+    {
+      "resource_id": 14,
+      "resource_name": "Updated pic",
+      "description": "This is a updated picture",
+      "url": "/testpic",
+      "created": "2014-02-17T22:46:51.091Z",
+      "resource_type": {
+        "id": 1,
+        "resourcetype": "Picture"
+      },
+      "user": {
+        "firstname": "Testuser",
+        "lastname": "Testing",
+        "username": "test",
+        "email": "test@test.se"
+      },
+      "licence": {
+        "id": 1,
+        "licence": "Attribution CC BY"
+      },
+      "tags": [
+        {
+          "tag": "Picture"
+        },
+        {
+          "tag": "Helpfull"
+        },
+        {
+          "tag": "Work"
+        },
+        {
+          "tag": "School"
+        }
+      ]
+    },
+    ....
+  ]
+}
+```
+#####Error
+Om den efterfrågade taggen inte finns så returneras en 404 Not Found.
 
+Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
+###User
+####Hämta alla användare
+```
+http://localhost:3000/api/v1/user?apikey=yourapikey
+```
+#####Resultat
+```
+{
+  "status": 200,
+  "users": [
+    {
+      "firstname": "Mike",
+      "lastname": "Ross",
+      "username": "mike",
+      "email": "mike@suits.com"
+    },
+    ....
+  ]
+}
+```
+#####Error
+Om inga användare hittas så returneras en 404 Not Found.
 
+Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
+####Hämta alla resurser en användare äger
+:username är en sträng som innehåller en användares användarnamn.
+```
+http://localhost:3000/api/v1/user/:username?apikey=yourapikey
+```
+#####Resultat
+```
+{
+  "status": 200,
+  "username": "test",
+  "resources": [
+    {
+      "resource_id": 11,
+      "resource_name": "Updated pic",
+      "description": "This is a updated picture",
+      "url": "/testpic",
+      "created": "2014-02-17T21:44:19.097Z",
+      "resource_type": {
+        "id": 1,
+        "resourcetype": "Picture"
+      },
+      "user": {
+        "firstname": "Testuser",
+        "lastname": "Testing",
+        "username": "test",
+        "email": "test@test.se"
+      },
+      "licence": {
+        "id": 1,
+        "licence": "Attribution CC BY"
+      },
+      "tags": [
+          {
+            "tag": "Helpfull"
+          }
+      ]
+    },
+    ....
+  ]
+}
+```
+#####Error
+Om användaren inte hittas så returneras en 404 Not Found.
+
+Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 
