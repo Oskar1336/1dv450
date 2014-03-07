@@ -1,1 +1,7 @@
-﻿
+﻿.accordion-width {
+    width:300px;
+}
+
+accordion :hover {
+    cursor: pointer;
+}

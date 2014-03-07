@@ -27,7 +27,7 @@ class Api::V1::ResourceController < ApplicationController
 			resultHash["status"]=200
 			resultHash["resources"]=resultArray
 			respond_to do |f|
-				f.json { render json: resultHash, :status => 200 }
+				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
 			end
 		else
@@ -35,7 +35,7 @@ class Api::V1::ResourceController < ApplicationController
 			errorHash["status"] = 404
 			errorHash["errormessage"] = "Found no resources"
 			respond_to do |f|
-				f.json { render json: errorHash, :status => 404 }
+				f.json { render json: errorHash, callback: params["callback"], :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
 			end
 		end
@@ -49,7 +49,7 @@ class Api::V1::ResourceController < ApplicationController
 			resultHash["status"]=200
 			resultHash["resource"]=generateResourceHash(resource)
 			respond_to do |f|
-				f.json { render json: resultHash, :status => 200 }
+				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
 			end
 		rescue
@@ -57,7 +57,7 @@ class Api::V1::ResourceController < ApplicationController
 			errorHash["status"] = 404
 			errorHash["errormessage"] = "Resource not found"
 			respond_to do |f|
-				f.json { render json: errorHash, :status => 404 }
+				f.json { render json: errorHash, callback: params["callback"], :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
 			end
 		end
@@ -106,7 +106,7 @@ class Api::V1::ResourceController < ApplicationController
 					errorHash["status"] = 400
 					errorHash["errormessage"] = "Parameters did not pass validation"
 					respond_to do |f|
-						f.json { render json: errorHash, :status => 400 }
+						f.json { render json: errorHash, callback: params["callback"], :status => 400 }
 						f.xml { render xml: errorHash, :status => 400 }
 					end
 				end
@@ -115,7 +115,7 @@ class Api::V1::ResourceController < ApplicationController
 				errorHash["status"] = 400
 				errorHash["errormessage"] = "Required parameters missing"
 				respond_to do |f|
-					f.json { render json: errorHash, :status => 400 }
+					f.json { render json: errorHash, callback: params["callback"], :status => 400 }
 					f.xml { render xml: errorHash, :status => 400 }
 				end
 			end
@@ -124,7 +124,7 @@ class Api::V1::ResourceController < ApplicationController
 			errorHash["status"] = 400
 			errorHash["errormessage"] = "Check your JSON body, 'resource' parameter not found"
 			respond_to do |f|
-				f.json { render json: errorHash, :status => 400 }
+				f.json { render json: errorHash, callback: params["callback"], :status => 400 }
 				f.xml { render xml: errorHash, :status => 400 }
 			end
 		end
@@ -167,7 +167,7 @@ class Api::V1::ResourceController < ApplicationController
 						resultHash["status"]=200
 						resultHash["resource"]=generateResourceHash(resource)
 						respond_to do |f|
-							f.json { render json: resultHash, :status => 200 }
+							f.json { render json: resultHash, callback: params["callback"], :status => 200 }
 							f.xml { render xml: resultHash, :status => 200 }
 						end
 					else
@@ -175,7 +175,7 @@ class Api::V1::ResourceController < ApplicationController
 						errorHash["status"] = 400
 						errorHash["errormessage"] = "Parameters did not pass validation"
 						respond_to do |f|
-							f.json { render json: errorHash, :status => 400 }
+							f.json { render json: errorHash, callback: params["callback"], :status => 400 }
 							f.xml { render xml: errorHash, :status => 400 }
 						end
 					end
@@ -184,7 +184,7 @@ class Api::V1::ResourceController < ApplicationController
 					errorHash["status"] = 403
 					errorHash["errormessage"] = "Current user does not have access to this resource"
 					respond_to do |f|
-						f.json { render json: errorHash, :status => 403 }
+						f.json { render json: errorHash, callback: params["callback"], :status => 403 }
 						f.xml { render xml: errorHash, :status => 403 }
 					end
 				end
@@ -193,7 +193,7 @@ class Api::V1::ResourceController < ApplicationController
 				errorHash["status"] = 400
 				errorHash["errormessage"] = "'resource' element missing in request body"
 				respond_to do |f|
-					f.json { render json: errorHash, :status => 400 }
+					f.json { render json: errorHash, callback: params["callback"], :status => 400 }
 					f.xml { render xml: errorHash, :status => 400 }
 				end
 			end
@@ -202,7 +202,7 @@ class Api::V1::ResourceController < ApplicationController
 			errorHash["status"] = 404
 			errorHash["errormessage"] = "Did not find the requested resource"
 			respond_to do |f|
-				f.json { render json: errorHash, :status => 404 }
+				f.json { render json: errorHash, callback: params["callback"], :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
 			end
 		end		

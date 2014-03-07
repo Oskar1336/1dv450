@@ -1,0 +1,27 @@
+﻿<div data-ng-controller="ResourceCtrl">
+    <div class="accordion-width">
+        <accordion close-others="false">
+            <accordion-group class="accordion-width" is-open="isopen" data-ng-repeat="resource in resources">
+                <accordion-heading>
+                    {{resource.resource_name}} <i class="pull-right glyphicon" data-ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
+                </accordion-heading>
+                Description: {{resource.description}}<br />
+                Url: <a href="{{resource.url}}">{{resource.url}}</a><br />
+                Created: {{resource.created|date:'yyyy-MM-dd HH:mm'}}<br />
+                Resource type: {{resource.resource_type.resourcetype}}<br />
+                User: {{resource.user.firstname}} {{resource.user.lastname}}<br />
+                Username: {{resource.user.username}}<br />
+                User mail: {{resource.user.email}}<br />
+                License: {{resource.licence.licence}}<br />
+                Tags:
+                <ul>
+                    <li data-ng-repeat="tag in resource.tags">
+                        {{tag.tag}}
+                    </li>
+                </ul>
+            </accordion-group>
+        </accordion>
+
+        Previous | Next
+    </div>
+</div>

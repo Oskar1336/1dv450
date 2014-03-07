@@ -18,7 +18,7 @@ class Api::V1::ResourcetypeController < ApplicationController
 			resultHash["status"]=200
 			resultHash["resourcetypes"]=resultArray
 			respond_to do |f|
-				f.json { render json: resultHash, :status => 200 }
+				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
 			end
 		else
@@ -26,7 +26,7 @@ class Api::V1::ResourcetypeController < ApplicationController
 			errorHash["status"] = 404
 			errorHash["errormessage"] = "Found no resource types"
 			respond_to do |f|
-				f.json { render json: errorHash, :status => 404 }
+				f.json { render json: errorHash, callback: params["callback"], :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
 			end
 		end
@@ -57,7 +57,7 @@ class Api::V1::ResourcetypeController < ApplicationController
 			resultHash["status"]=200
 			resultHash["result"]=resultArray
 			respond_to do |f|
-				f.json { render json: resultHash, :status => 200 }
+				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
 			end
 		else
@@ -65,7 +65,7 @@ class Api::V1::ResourcetypeController < ApplicationController
 			errorHash["status"] = 404
 			errorHash["errormessage"] = "Found no such resource type"
 			respond_to do |f|
-				f.json { render json: errorHash, :status => 404 }
+				f.json { render json: errorHash, callback: params["callback"], :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
 			end
 		end

@@ -1,14 +1,14 @@
 ﻿
 
-angular.module('TOERH').config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
+angular.module("TOERH").config(["$routeProvider", "$httpProvider", function ($routeProvider, $httpProvider) {
     'use strict';
+    
+    $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
-    $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-    $routeProvider.when('/:type', {
-        controller: '', // @TODO: root controller
-        templateUrl: '' // @TOOD: root template
+    $routeProvider.when("/", {
+        controller: "ResourceCtrl",
+        templateUrl: "/Templates/Resourcelist.html"
     }).otherwise({
-        redirectTo: '/' // @TODO: Change to root url.
+        redirectTo: "/"
     });
 }]);

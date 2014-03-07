@@ -18,7 +18,7 @@ class Api::V1::LicenceController < ApplicationController
 			resultHash["status"]=200
 			resultHash["licences"]=resultArray
 			respond_to do |f|
-				f.json { render json: resultHash, :status => 200 }
+				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
 			end
 		else
@@ -26,7 +26,7 @@ class Api::V1::LicenceController < ApplicationController
 			errorHash["status"] = 404
 			errorHash["errormessage"] = "Found no licences"
 			respond_to do |f|
-				f.json { render json: errorHash, :status => 404 }
+				f.json { render json: errorHash, callback: params["callback"], :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
 			end
 		end
@@ -51,7 +51,7 @@ class Api::V1::LicenceController < ApplicationController
 			resultHash["licenceid"]=generateLicenceHash(licence)
 			resultHash["resources"]=resultArray
 			respond_to do |f|
-				f.json { render json: resultHash, :status => 200 }
+				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
 			end
 		rescue
@@ -59,7 +59,7 @@ class Api::V1::LicenceController < ApplicationController
 			errorHash["status"] = 404
 			errorHash["errormessage"] = "Found no such licence"
 			respond_to do |f|
-				f.json { render json: errorHash, :status => 404 }
+				f.json { render json: errorHash, callback: params["callback"], :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
 			end
 		end

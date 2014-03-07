@@ -1,7 +1,8 @@
 ﻿
 
-angular.module('TOERH', [
-    'ngRoute',
-    'ngResource',
-    'ui.bootstrap'
+angular.module("TOERH", [
+    "ngRoute",
+    "ngResource",
+    "ui.bootstrap",
+    "TOERH.Resource"
 ]);
