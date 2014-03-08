@@ -5,23 +5,24 @@
                 <accordion-heading>
                     {{resource.resource_name}} <i class="pull-right glyphicon" data-ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
                 </accordion-heading>
-                Description: {{resource.description}}<br />
-                Url: <a href="{{resource.url}}">{{resource.url}}</a><br />
-                Created: {{resource.created|date:'yyyy-MM-dd HH:mm'}}<br />
-                Resource type: {{resource.resource_type.resourcetype}}<br />
-                User: {{resource.user.firstname}} {{resource.user.lastname}}<br />
-                Username: {{resource.user.username}}<br />
-                User mail: {{resource.user.email}}<br />
-                License: {{resource.licence.licence}}<br />
-                Tags:
+                <strong>Description:</strong> {{resource.description}}<br />
+                <strong>Url:</strong> <a href="{{resource.url}}">{{resource.url}}</a><br />
+                <strong>Created:</strong> {{resource.created|date:'yyyy-MM-dd HH:mm'}}<br />
+                <strong>Resource type:</strong> {{resource.resource_type.resourcetype}}<br />
+                <strong>User:</strong> {{resource.user.firstname}} {{resource.user.lastname}}<br />
+                <strong>Username:</strong> {{resource.user.username}}<br />
+                <strong>User mail:</strong> {{resource.user.email}}<br />
+                <strong>License:</strong> {{resource.licence.licence}}<br />
+                <strong>Tags:</strong>
                 <ul>
                     <li data-ng-repeat="tag in resource.tags">
-                        {{tag.tag}}
+                        {{tag}}
                     </li>
                 </ul>
             </accordion-group>
         </accordion>
 
-        Previous | Next
+        <a href="javascript:;" id="previousPage" data-ng-click="loadPage(true)">Previous</a>
+        <a href="javascript:;" id="nextPage" data-ng-click="loadPage(false)">Next</a>
     </div>
 </div>

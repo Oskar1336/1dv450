@@ -4,5 +4,6 @@ angular.module("TOERH", [
     "ngRoute",
     "ngResource",
     "ui.bootstrap",
-    "TOERH.Resource"
+    "TOERH.Resource",
+    "TOERH.Login"
 ]);

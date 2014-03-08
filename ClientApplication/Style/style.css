@@ -2,6 +2,6 @@
     width:300px;
 }
 
-accordion :hover {
+div h4 a :hover {
     cursor: pointer;
 }
