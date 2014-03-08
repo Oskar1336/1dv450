@@ -1,15 +1,22 @@
 class Api::V1::UserController < ApplicationController
 	before_filter :validateApiKey
 	
-	# GET: api/v1/tag?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10
+	# GET: api/v1/user?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10&page=1
 	def index
 		users = nil
 		if params[:limit].blank? == false
-			users = User.all().limit(params[:limit].to_i)
+			if params[:page].blank? == false
+				users = User.all.paginate(page: params[:page], per_page: params[:limit])
+			else
+				users = User.all.limit(params[:limit].to_i)
+			end
+		elsif params[:page].blank? == false
+			users = User.all.paginate(page: params[:page], per_page: 10)
 		else
 			users = User.all
 		end
-		if users != nil
+		
+		if users.blank? == false
 			resultHash = Hash.new
 			resultArray = Array.new
 			users.each do |user|
@@ -17,6 +24,8 @@ class Api::V1::UserController < ApplicationController
 			end
 			resultHash["status"] = 200
 			resultHash["users"] = resultArray
+			resultHash["nextPage"]=changePageLink("user", false)
+			resultHash["previousPage"]=changePageLink("user", true)
 			respond_to do |f|
 				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
@@ -32,24 +41,34 @@ class Api::V1::UserController < ApplicationController
 		end
 	end
 	
-	# GET :api/v1/tag/:username?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10
+	# GET :api/v1/tag/:username?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10&page=1
 	def show
 		user = User.find_by_username(params[:id])
-		if user != nil
+		if user.blank? == false
 			resultHash = Hash.new
 			resultArray = Array.new
 			resources = nil
 			if params[:limit].blank? == false
-				resources = user.resources.limit(params[:limit].to_i)
+				if params[:page].blank? == false
+					resources = user.resources.paginate(page: params[:page], per_page: params[:limit])
+				else
+					resources = user.resources.limit(params[:limit].to_i)
+				end
+			elsif params[:page].blank? == false
+					resources = user.resources.paginate(page: params[:page], per_page: 10)
 			else
 				resources = user.resources
 			end
+			
 			resources.each do |resource|
 				resultArray << generateResourceHash(resource)
 			end
+			
 			resultHash["status"]=200
 			resultHash["username"]=user.username
 			resultHash["resources"]=resultArray
+			resultHash["nextPage"]=changePageLink("user", false)
+			resultHash["previousPage"]=changePageLink("user", true)
 			respond_to do |f|
 				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }

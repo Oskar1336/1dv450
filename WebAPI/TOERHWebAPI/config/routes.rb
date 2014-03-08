@@ -24,4 +24,9 @@ TOERHWebAPI::Application.routes.draw do
   end
   
   match "*path" => redirect("/"), :via => :get # Handle 404
+  
+  get "/auth/:provider/callback" => "session#create"
+  get "/signout" => "session#destroy", :as => :signout
+  get "/test" => "session#test"
+  get "/authenticate" => "session#authenticate"
 end

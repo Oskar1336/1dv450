@@ -3,17 +3,50 @@ require 'digest/sha2'
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  protect_from_forgery
+  protect_from_forgery with: :null_session
 
   protected
 	@@current_username = ""
+  
+  def previousPageLink(controller)
+    
+  end
+  
+  def changePageLink(controller, previousPage)
+    pageLink = "http://localhost:3000/api/v1/" + controller
+    if params[:id].blank? == false
+      pageLink += "/" + params[:id]
+    end
+    pageLink += "?apikey="+params[:apikey]
+    if params[:page].blank? == false && previousPage == false
+      pageLink += "&page="+(params[:page].to_i+1).to_s
+    elsif params[:page].blank? == false && previousPage && params[:page].to_i != 1
+      pageLink += "&page="+(params[:page].to_i-1).to_s
+    elsif params[:page].to_i == 1
+        pageLink += "&page="+params[:page]
+    end
+    if params[:limit].blank? == false
+      pageLink += "&limit="+params[:limit]
+    end
+    if params[:resourcename].blank? == false
+      pageLink += "&resourcename="+params[:resourcename]
+    end
+    if params[:callback].blank? == false
+      pageLink += "&callback=JSON_CALLBACK"
+    end
+    
+    if pageLink == "api/v1/" + controller + "?apikey="+params[:apikey]
+      return ""
+    end
+    return pageLink
+  end
   
   # Resource
   def generateResourceHash(resource)
   	resourceHash = Hash.new
   	tagArray = Array.new
   	resource.tags.each do |tag|
-  		tagArray<<generateTagHash(tag)
+  		tagArray<<tag.tag
   	end
 		resourceHash["resource_id"]=resource.id
     resourceHash["resource_name"]=resource.name
@@ -52,14 +85,6 @@ class ApplicationController < ActionController::Base
 		userHash["email"]=user.email
 		return userHash
   end
-  
-  # Tag
-  def generateTagHash(tag)
-  	tagHash = Hash.new
-  	tagHash["tag"]=tag.tag
-  	return tagHash
-  end
-  
   
   # User validation
   	def validateApiKey

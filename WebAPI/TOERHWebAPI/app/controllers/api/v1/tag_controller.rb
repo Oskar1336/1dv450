@@ -1,22 +1,31 @@
 class Api::V1::TagController < ApplicationController
 	before_filter :validateApiKey
 	
-	# GET: api/v1/tag?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10
+	# GET: api/v1/tag?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10&page=1
 	def index
 		tags = nil
 		if params[:limit].blank? == false
-			tags = Tag.all().limit(params[:limit].to_i)
+			if params[:page].blank? == false
+				tags = Tag.all.paginate(page: params[:page], per_page: params[:limit])
+			else
+				tags = Tag.all.limit(params[:limit].to_i)
+			end
+		elsif params[:page].blank? == false
+			tags = Tag.all.paginate(page: params[:page], per_page: 10)
 		else
-			tags = Tag.all	
+			tags = Tag.all
 		end
-		if tags != nil
+		
+		if tags.blank? == false
 			resultHash = Hash.new
 			resultArray = Array.new
 			tags.each do |tag|
-				resultArray<<generateTagHash(tag)
+				resultArray<<tag.tag
 			end
 			resultHash["status"]=200
 			resultHash["tags"]=resultArray
+			resultHash["nextPage"]=changePageLink("tag", false)
+			resultHash["previousPage"]=changePageLink("tag", true)
 			respond_to do |f|
 				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
@@ -32,15 +41,21 @@ class Api::V1::TagController < ApplicationController
 		end
 	end
 	
-	# GET :api/v1/tag/:tag?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10
+	# GET :api/v1/tag/:tag?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10&page=1
 	def show
 		tag = Tag.find_by_tag(params[:id])
-		if tag != nil
+		if tag.blank? == false
 			resultArray = Array.new
 			resultHash = Hash.new
 			resources = nil
 			if params[:limit].blank? == false
-				resources = tag.resources.limit(params[:limit].to_i)
+				if params[:page].blank? == false
+					resources = tag.resources.paginate(page: params[:page], per_page: params[:limit])
+				else
+					resources = tag.resources.limit(params[:limit].to_i)
+				end
+			elsif params[:page].blank? == false
+					resources = tag.resources.paginate(page: params[:page], per_page: 10)
 			else
 				resources = tag.resources
 			end
@@ -48,8 +63,10 @@ class Api::V1::TagController < ApplicationController
 				resultArray << generateResourceHash(resource)
 			end
 			resultHash["status"]=200
-			resultHash["tag"]=generateTagHash(tag)
+			resultHash["tag"]=tag.tag
 			resultHash["resources"]=resultArray
+			resultHash["nextPage"]=changePageLink("tag", false)
+			resultHash["previousPage"]=changePageLink("tag", true)
 			respond_to do |f|
 				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }

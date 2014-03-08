@@ -38,6 +38,13 @@ gem 'grosser-ssl_requirement', :require => 'ssl_requirement'
 # Use ActiveModel has_secure_password
 gem 'bcrypt-ruby', :require => 'bcrypt'
 
+# Gemfile for Rails 3+, Sinatra, or Merb
+gem 'will_paginate', '~> 3.0.5'
+
+gem "omniauth-github"
+
+gem "rack-cors", :require => "rack/cors"
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

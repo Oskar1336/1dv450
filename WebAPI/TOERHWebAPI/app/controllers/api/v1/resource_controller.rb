@@ -2,23 +2,35 @@ class Api::V1::ResourceController < ApplicationController
 	before_filter :validateApiKey
 	before_filter :validateUser, :except => [:index, :show]
 	
-	# GET: api/v1/resource?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe&resourcename=Test&limit=10
+	# GET: api/v1/resource?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe&resourcename=Test&limit=10&page=1
 	def index
 		resources = nil
 		if params[:limit].blank? == false
-			resources = Resource.all().limit(params[:limit].to_i)
+			if params[:page].blank? == false
+				resources = Resource.all.paginate(page: params[:page], per_page: params[:limit])
+			else
+				resources = Resource.all.limit(params[:limit].to_i)
+			end
+		elsif params[:page].blank? == false
+			resources = Resource.all.paginate(page: params[:page], per_page: 10)
+		elsif params[:resourcename].blank? == false
+			query = "%#{params[:resourcename]}%"
+			if params[:limit].blank? == false
+				if params[:page].blank? == false
+					resources = Resource.where("name LIKE ?", query).paginate(page: params[:page], per_page: params[:limit])
+				else
+					resources = Resource.where("name LIKE ?", query).limit(params[:limit].to_i)
+				end
+			elsif params[:page].blank? == false
+				resources = Resource.where("name LIKE ?", query).paginate(page: params[:page], per_page: 10)
+			else
+				resources = Resource.where("name LIKE ?", query)
+			end
 		else
 			resources = Resource.all
 		end
-		if params[:resourcename].blank? == false
-			q = "%#{params[:resourcename]}%"
-			if params[:limit].blank? == false
-				resources = Resource.where("name LIKE ?", q).limit(params[:limit].to_i)
-			else
-				resources = Resource.where("name LIKE ?", q)
-			end
-		end
-		if resources != nil
+		
+		if resources.blank? == false
 			resultArray = Array.new
 			resultHash = Hash.new
 			resources.each do |resource|
@@ -26,6 +38,8 @@ class Api::V1::ResourceController < ApplicationController
 			end
 			resultHash["status"]=200
 			resultHash["resources"]=resultArray
+			resultHash["nextPage"]=changePageLink("resource", false)
+			resultHash["previousPage"]=changePageLink("resource", true)
 			respond_to do |f|
 				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
@@ -40,7 +54,7 @@ class Api::V1::ResourceController < ApplicationController
 			end
 		end
 	end
-	
+
 	# GET: api/v1/resource/:id?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe
 	def show
 		begin

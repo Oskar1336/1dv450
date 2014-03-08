@@ -4,19 +4,29 @@ class Api::V1::ResourcetypeController < ApplicationController
 	# GET: api/v1/resourcetype?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&resourcetype=Picture&limit=10
 	def index
 		resourcetypes = nil
-		if params[:limit]
-			resourcetypes = ResourceType.all().limit(params[:limit].to_i)
+		if params[:limit].blank? == false
+			if params[:page].blank? == false
+				resourcetypes = ResourceType.all.paginate(page: params[:page], per_page: params[:limit])
+			else
+				resourcetypes = ResourceType.all.limit(params[:limit].to_i)
+			end
+		elsif params[:page].blank? == false
+			resourcetypes = ResourceType.all.paginate(page: params[:page], per_page: 10)
 		else
 			resourcetypes = ResourceType.all
 		end
-		if resourcetypes != nil
+		
+		if resourcetypes.blank? == false
 			resultArray = Array.new
 			resultHash = Hash.new
 			resourcetypes.each do |resourcetype|
 				resultArray << generateResourceTypeHash(resourcetype)
 			end
+			
 			resultHash["status"]=200
 			resultHash["resourcetypes"]=resultArray
+			resultHash["nextPage"]=changePageLink("resourcetype", false)
+			resultHash["previousPage"]=changePageLink("resourcetype", true)
 			respond_to do |f|
 				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
@@ -34,14 +44,22 @@ class Api::V1::ResourcetypeController < ApplicationController
 	
 	# GET: api/v1/resourcetype/:resourcetype?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10
 	def show
-		q = "%#{params[:id]}%"
+		query = "%#{params[:id]}%"
 		resourcetypes = nil
-		if params[:limit]
-			resourcetypes = ResourceType.where("resource_type LIKE ?", q).limit(params[:limit].to_i)
+		
+		if params[:limit].blank? == false
+			if params[:page].blank? == false
+				resourcetypes = ResourceType.where("resource_type LIKE ?", query).paginate(page: params[:page], per_page: params[:limit])
+			else
+				resourcetypes = ResourceType.where("resource_type LIKE ?", query).limit(params[:limit].to_i)
+			end
+		elsif params[:page].blank? == false
+			resourcetypes = ResourceType.where("resource_type LIKE ?", query).paginate(page: params[:page], per_page: 10)
 		else
-			resourcetypes = ResourceType.where("resource_type LIKE ?", q)
+			resourcetypes = ResourceType.where("resource_type LIKE ?", query)
 		end
-		if resourcetypes.any?
+		
+		if resourcetypes.blank? == false
 			resultHash = Hash.new
 			resultArray = Array.new
 			resourcetypes.each do |resourcetype|
@@ -54,8 +72,11 @@ class Api::V1::ResourcetypeController < ApplicationController
 				tempHash["resources"]=tempArray
 				resultArray<<tempHash
 			end
+			
 			resultHash["status"]=200
 			resultHash["result"]=resultArray
+			resultHash["nextPage"]=changePageLink("resourcetype", false)
+			resultHash["previousPage"]=changePageLink("resourcetype", true)
 			respond_to do |f|
 				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
