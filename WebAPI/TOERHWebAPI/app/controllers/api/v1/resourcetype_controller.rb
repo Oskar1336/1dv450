@@ -25,10 +25,12 @@ class Api::V1::ResourcetypeController < ApplicationController
 			
 			resultHash["status"]=200
 			resultHash["resourcetypes"]=resultArray
-			resultHash["nextPage"]=changePageLink("resourcetype", false)
-			resultHash["previousPage"]=changePageLink("resourcetype", true)
+			if params[:page].blank? == false
+				resultHash["nextPage"]=changePageLink("resourcetype", false)
+				resultHash["previousPage"]=changePageLink("resourcetype", true)
+			end
 			respond_to do |f|
-				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
+				f.json { render json: resultHash, :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
 			end
 		else
@@ -36,7 +38,7 @@ class Api::V1::ResourcetypeController < ApplicationController
 			errorHash["status"] = 404
 			errorHash["errormessage"] = "Found no resource types"
 			respond_to do |f|
-				f.json { render json: errorHash, callback: params["callback"], :status => 404 }
+				f.json { render json: errorHash, :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
 			end
 		end
@@ -63,22 +65,19 @@ class Api::V1::ResourcetypeController < ApplicationController
 			resultHash = Hash.new
 			resultArray = Array.new
 			resourcetypes.each do |resourcetype|
-				tempHash = Hash.new
-				tempArray = Array.new
 				resourcetype.resources.each do |resource|
-					tempArray<<generateResourceHash(resource)
+					resultArray<<generateResourceHash(resource)
 				end
-				tempHash["resourcetype"]=generateResourceTypeHash(resourcetype)
-				tempHash["resources"]=tempArray
-				resultArray<<tempHash
 			end
 			
 			resultHash["status"]=200
-			resultHash["result"]=resultArray
-			resultHash["nextPage"]=changePageLink("resourcetype", false)
-			resultHash["previousPage"]=changePageLink("resourcetype", true)
+			resultHash["resources"]=resultArray
+			if params[:page].blank? == false
+				resultHash["nextPage"]=changePageLink("resourcetype", false)
+				resultHash["previousPage"]=changePageLink("resourcetype", true)
+			end
 			respond_to do |f|
-				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
+				f.json { render json: resultHash, :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
 			end
 		else
@@ -86,7 +85,7 @@ class Api::V1::ResourcetypeController < ApplicationController
 			errorHash["status"] = 404
 			errorHash["errormessage"] = "Found no such resource type"
 			respond_to do |f|
-				f.json { render json: errorHash, callback: params["callback"], :status => 404 }
+				f.json { render json: errorHash, :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
 			end
 		end

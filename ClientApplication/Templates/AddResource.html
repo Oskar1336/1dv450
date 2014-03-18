@@ -7,42 +7,43 @@
         <div class="form-group">
             <label for="resourcename" class="col-sm-3 control-label">Name:</label>
             <div class="col-sm-8">
-                <input type="text" id="resourcename" class="form-control" ng-model="resource.resourcename" name="resourcename" required="required"/>
+                <input type="text" id="resourcename" class="form-control" data-ng-model="resource.resourcename" name="resourcename" required="required"/>
             </div>
         </div>
 
         <div class="form-group">
             <label for="resourcedesc" class="col-sm-3 control-label">Description:</label>
             <div class="col-sm-8">
-                <input type="text" id="resourcedesc" class="form-control" ng-model="resource.resourcedesc" name="resourcedesc"/>
+                <input type="text" id="resourcedesc" class="form-control" data-ng-model="resource.resourcedesc" name="resourcedesc"/>
             </div>
         </div>
 
         <div class="form-group">
             <label for="resourcetype" class="col-sm-3 control-label">Type:</label>
             <div class="col-sm-8">
-                <input type="text" id="resourcetype" class="form-control" ng-model="resource.resourcetype" name="resourcetype" required="required"/>
+                <input type="text" id="resourcetype" class="form-control" data-ng-model="resource.resourcetype" name="resourcetype" required="required"/>
             </div>
         </div>
 
         <div class="form-group">
             <label for="resourceurl" class="col-sm-3 control-label">Url:</label>
             <div class="col-sm-8">
-                <input type="text" id="resourceurl" class="form-control" ng-model="resource.resourceurl" name="resourceurl" required="required"/>
+                <input type="text" id="resourceurl" class="form-control" data-ng-model="resource.resourceurl" name="resourceurl" required="required"/>
             </div>
         </div>
 
         <div class="form-group">
             <label for="resourcelicense" class="col-sm-3 control-label">License:</label>
             <div class="col-sm-8">
-                <input type="text" id="resourcelicense" class="form-control" ng-model="resource.resourcelicense" name="resourcelicense" required="required"/>
+                <select data-ng-model="resource.resourcelicense" data-ng-options="l.licence for l in licences" class="form-control" required="required"></select>
+                <!--<input type="text" id="resourcelicense" class="form-control" ng-model="resource.resourcelicense" name="resourcelicense" required="required"/>-->
             </div>
         </div>
 
         <div class="form-group">
             <label for="resourcetags" class="col-sm-3 control-label">Tags:</label>
             <div class="col-sm-8">
-                <input type="text" id="resourcetags" class="form-control" ng-model="resource.resourcetags" name="resourcetags" data-popover="Seperate multiple tags with :" data-popover-trigger="focus"/>
+                <input type="text" id="resourcetags" class="form-control" data-ng-model="resource.resourcetags" name="resourcetags" data-popover="Seperate multiple tags with :" data-popover-trigger="focus"/>
             </div>
         </div>
     </div>

@@ -1,9 +1,9 @@
 ﻿
 
-angular.module("TOERH.Resource").controller("ResourceCtrl", ["$scope", "$rootScope", "$routeParams", "$location", "ResourceFactory", "MessageService",
-    function ($scope, $rootScope, $routeParams, $location, ResourceFactory, MessageService) {
+angular.module("TOERH.Resource").controller("ResourceCtrl", ["$scope", "$rootScope", "$routeParams", "$location", "ResourceFactory", "MessageService", "TagFactory",
+    function ($scope, $rootScope, $routeParams, $location, ResourceFactory, MessageService, TagFactory) {
         $scope.apidata = null;
-        $scope.isLoggedIn = true; //$scope.$parent.$$prevSibling.$$childTail.$$childTail.isLoggedIn; @TODO: fix check login.
+        $scope.isLoggedIn = $rootScope.isLoggedIn;
 
         ResourceFactory.getAllResources().success(function (data) {
             $scope.apidata = data;
@@ -36,11 +36,30 @@ angular.module("TOERH.Resource").controller("ResourceCtrl", ["$scope", "$rootSco
             }
 
             promise.success(function (data) {
-                $scope.apidata = data;
-                $scope.resources = data.resources;
+                if (data.resources.length > 0) {
+                    $scope.apidata = data;
+                    $scope.resources = data.resources;
+                } else {
+                    MessageService.showMessage("<strong>Error:</strong> Found no more resources.", "alert alert-info", "userMessage");
+                }
             });
             promise.error(function (error) {
-                if (error.status !== 404) {
+                if (error.status === 404) {
+                    MessageService.showMessage("<strong>Error:</strong> Found no more resources.", "alert alert-info", "userMessage");
+                } else {
+                    MessageService.showMessage("<strong>Error:</strong> Error while fetching resources.", "alert alert-danger", "userMessage");
+                }
+            });
+        };
+
+        $scope.getResourcesByTag = function (tag) {
+            TagFactory.searchForResourcesByTag(undefined, tag).success(function (data) {
+                $scope.resources = data.resources;
+                $scope.apidata = data;
+            }).error(function (error) {
+                if (error.status === 404) {
+                    MessageService.showMessage("<strong>Error:</strong> Found no such resource.", "alert alert-danger", "userMessage");
+                } else {
                     MessageService.showMessage("<strong>Error:</strong> Error while fetching resources.", "alert alert-danger", "userMessage");
                 }
             });

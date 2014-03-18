@@ -24,13 +24,13 @@ angular.module("TOERH.Resource").factory("ResourceFactory", ["$http", function (
                 });
             },
             insertResource: function (resource) {
-                var authstring = window.btoa("test");
+                var authstring = window.btoa("test:test");
                 return $http({
                     method: "POST",
                     url: "http://localhost:3000/api/v1/resource?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe",
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": "Basic dGVzdDp0ZXN0"// + authstring
+                        "Authorization": "Basic " + authstring // dGVzdDp0ZXN0
                     },
                     data: JSON.stringify(resource)
                 });

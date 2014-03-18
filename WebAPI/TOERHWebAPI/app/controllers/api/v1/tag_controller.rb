@@ -24,10 +24,12 @@ class Api::V1::TagController < ApplicationController
 			end
 			resultHash["status"]=200
 			resultHash["tags"]=resultArray
-			resultHash["nextPage"]=changePageLink("tag", false)
-			resultHash["previousPage"]=changePageLink("tag", true)
+			if params[:page].blank? == false
+				resultHash["nextPage"]=changePageLink("tag", false)
+				resultHash["previousPage"]=changePageLink("tag", true)
+			end
 			respond_to do |f|
-				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
+				f.json { render json: resultHash, :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
 			end
 		else
@@ -35,7 +37,7 @@ class Api::V1::TagController < ApplicationController
 			errorHash["status"] = 404
 			errorHash["errormessage"] = "Found no tags"
 			respond_to do |f|
-				f.json { render json: errorHash, callback: params["callback"], :status => 404 }
+				f.json { render json: errorHash, :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
 			end
 		end
@@ -65,10 +67,12 @@ class Api::V1::TagController < ApplicationController
 			resultHash["status"]=200
 			resultHash["tag"]=tag.tag
 			resultHash["resources"]=resultArray
-			resultHash["nextPage"]=changePageLink("tag", false)
-			resultHash["previousPage"]=changePageLink("tag", true)
+			if params[:page].blank? == false
+				resultHash["nextPage"]=changePageLink("tag", false)
+				resultHash["previousPage"]=changePageLink("tag", true)
+			end
 			respond_to do |f|
-				f.json { render json: resultHash, callback: params["callback"], :status => 200 }
+				f.json { render json: resultHash, :status => 200 }
 				f.xml { render xml: resultHash, :status => 200 }
 			end
 		else
@@ -76,7 +80,7 @@ class Api::V1::TagController < ApplicationController
 			errorHash["status"] = 404
 			errorHash["errormessage"] = "Found no such tag"
 			respond_to do |f|
-				f.json { render json: errorHash, callback: params["callback"], :status => 404 }
+				f.json { render json: errorHash, :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
 			end
 		end
