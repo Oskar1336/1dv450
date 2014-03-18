@@ -1,7 +1,7 @@
 ﻿
 
-angular.module("TOERH.Search").controller("SearchCtrl", ["$scope", "$rootScope", "$routeParams", "ResourceFactory",
-    function ($scope, $rootScope, $routeParams, ResourceFactory) {
+angular.module("TOERH.Search").controller("SearchCtrl", ["$scope", "$rootScope", "$routeParams", "ResourceFactory", "MessageService",
+    function ($scope, $rootScope, $routeParams, ResourceFactory, MessageService) {
         $scope.searchTypes = [
             { name: "Resources", value: "Resource" },
             { name: "Tags", value: "Tag" },
@@ -31,7 +31,12 @@ angular.module("TOERH.Search").controller("SearchCtrl", ["$scope", "$rootScope",
                 $scope.$parent.$$nextSibling.$$childTail.apidata = data;
             });
             promise.error(function (error) {
-                console.log("@TODO: Handel error.");
+                console.log(error);
+                if (error.status === 404) {
+                    MessageService.showMessage("<strong>Error:</strong> Found no such resource.", "alert alert-danger", "userMessage");
+                } else {
+                    MessageService.showMessage("<strong>Error:</strong> Error while fetching resources.", "alert alert-danger", "userMessage");
+                }
             });
         };
     }

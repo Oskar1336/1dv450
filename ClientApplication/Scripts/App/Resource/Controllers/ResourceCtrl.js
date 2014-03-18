@@ -40,7 +40,9 @@ angular.module("TOERH.Resource").controller("ResourceCtrl", ["$scope", "$rootSco
                 $scope.resources = data.resources;
             });
             promise.error(function (error) {
-                MessageService.showMessage("<strong>Error:</strong> Error while fetching resources.", "alert alert-danger", "userMessage");
+                if (error.status !== 404) {
+                    MessageService.showMessage("<strong>Error:</strong> Error while fetching resources.", "alert alert-danger", "userMessage");
+                }
             });
         };
     }
