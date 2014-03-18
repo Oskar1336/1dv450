@@ -1,5 +1,6 @@
 class Api::V1::UserController < ApplicationController
 	before_filter :validateApiKey
+	before_filter :validateUser, :except => [:index, :show]
 	
 	# GET: api/v1/user?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10&page=1
 	def index
@@ -80,6 +81,57 @@ class Api::V1::UserController < ApplicationController
 			respond_to do |f|
 				f.json { render json: errorHash, callback: params["callback"], :status => 404 }
 				f.xml { render xml: errorHash, :status => 404 }
+			end
+		end
+	end
+	
+	# POST api/v1/tag/:username?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg
+	def create
+		if params[:user].blank? == false
+			email = params[:user][:email]
+			name = params[:user][:name]
+			username = params[:user][:username]
+			password = params[:user][:password]
+			
+			if email.blank? == false && name.blank? == false && username.blank? == false && password.blank? == false
+				user = User.new
+				user.email = email
+				user.name = name
+				user.username = username
+				user.provider = "Local"
+				user.password_digest = Digest::SHA512.hexdigest(password)
+				if user.save
+					resultHash = Hash.new
+					resultHash["status"]=204
+					respond_to do |f|
+						f.json { render json: resultHash, :status => 204 }
+						f.xml { render xml: resultHash, :status => 204 }
+					end
+				else
+					errorHash = Hash.new
+					errorHash["status"] = 400
+					errorHash["errormessage"] = "Parameters did not pass validation"
+					respond_to do |f|
+						f.json { render json: errorHash, callback: params["callback"], :status => 400 }
+						f.xml { render xml: errorHash, :status => 400 }
+					end
+				end
+			else
+				errorHash = Hash.new
+					errorHash["status"] = 400
+					errorHash["errormessage"] = "Required parameters missing"
+					respond_to do |f|
+						f.json { render json: errorHash, callback: params["callback"], :status => 400 }
+						f.xml { render xml: errorHash, :status => 400 }
+					end
+			end
+		else
+			errorHash = Hash.new
+			errorHash["status"] = 400
+			errorHash["errormessage"] = "Check your JSON body, 'user' parameter not found"
+			respond_to do |f|
+				f.json { render json: errorHash, callback: params["callback"], :status => 400 }
+				f.xml { render xml: errorHash, :status => 400 }
 			end
 		end
 	end

@@ -1,19 +1,12 @@
 class Api::V1::ResourceController < ApplicationController
 	before_filter :validateApiKey
 	before_filter :validateUser, :except => [:index, :show]
+	# skip_before_filter :verify_authenticity_token, :only => [:create, :update]
 	
 	# GET: api/v1/resource?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe&resourcename=Test&limit=10&page=1
 	def index
 		resources = nil
-		if params[:limit].blank? == false
-			if params[:page].blank? == false
-				resources = Resource.all.paginate(page: params[:page], per_page: params[:limit])
-			else
-				resources = Resource.all.limit(params[:limit].to_i)
-			end
-		elsif params[:page].blank? == false
-			resources = Resource.all.paginate(page: params[:page], per_page: 10)
-		elsif params[:resourcename].blank? == false
+		if params[:resourcename].blank? == false
 			query = "%#{params[:resourcename]}%"
 			if params[:limit].blank? == false
 				if params[:page].blank? == false
@@ -26,6 +19,14 @@ class Api::V1::ResourceController < ApplicationController
 			else
 				resources = Resource.where("name LIKE ?", query)
 			end
+		elsif params[:limit].blank? == false
+			if params[:page].blank? == false
+				resources = Resource.all.paginate(page: params[:page], per_page: params[:limit])
+			else
+				resources = Resource.all.limit(params[:limit].to_i)
+			end
+		elsif params[:page].blank? == false
+			resources = Resource.all.paginate(page: params[:page], per_page: 10)
 		else
 			resources = Resource.all
 		end
@@ -79,55 +80,46 @@ class Api::V1::ResourceController < ApplicationController
 	
 	# POST: api/v1/resource?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe
 	def create
-		if params[:resource].blank? == false
-			resourcetypeparam = params[:resource][:resourcetype]
-			licencetypeparam = params[:resource][:licencetype]
-			description = " "
-			if params[:resource][:description].blank? == false
-				description = params[:resource][:description]
+		headers["Access-Control-Allow-Origin"]="*"
+		resourcetypeparam = params[:resource_type]
+		licencetypeparam = params[:licence]
+		description = " "
+		if params[:description].blank? == false
+			description = params[:description]
+		end
+		url = params[:url]
+		tags = params[:tags]
+		name = params[:resource_name]
+		
+		if name.blank? == false && licencetypeparam.blank? == false && resourcetypeparam.blank? == false && url.blank? == false
+			user = User.find_by_username(@@current_username)
+			licencetype = Licence.find_or_create_by_licence_type(licencetypeparam)
+			resourcetype = ResourceType.find_or_create_by_resource_type(resourcetypeparam)
+			resource = Resource.new
+			resource.name = name
+			resource.resource_type_id = resourcetype.id
+			resource.user_id = user.id
+			resource.licence_id = licencetype.id
+			resource.description = description
+			resource.url = url
+			resource.created_at = DateTime.now
+			resource.updated_at = DateTime.now
+			tags.each do |tag|
+				tagInfo = Tag.find_or_create_by_tag(tag)
+				resource.tags << tagInfo
 			end
-			url = params[:resource][:url]
-			tags = params[:resource][:tags]
-			name = params[:resource][:name]
-			
-			if name.blank? == false && licencetypeparam.blank? == false && resourcetypeparam.blank? == false && url.blank? == false
-				user = User.find_by_username(@@current_username)
-				licencetype = Licence.find_or_create_by_licence_type(licencetypeparam)
-				resourcetype = ResourceType.find_or_create_by_resource_type(resourcetypeparam)
-				resource = Resource.new
-				resource.name = name
-				resource.resource_type_id = resourcetype.id
-				resource.user_id = user.id
-				resource.licence_id = licencetype.id
-				resource.description = description
-				resource.url = url
-				resource.created_at = DateTime.now
-				resource.updated_at = DateTime.now
-				tags.each do |tag|
-					tagInfo = Tag.find_or_create_by_tag(tag)
-					resource.tags << tagInfo
-				end
-				if resource.save
-					resultHash = Hash.new
-					resultHash["status"]=201
-					resultHash["resource"]=generateResourceHash(resource)
-					respond_to do |f|
-						f.json { render json: resultHash, :status => 201 }
-						f.xml { render xml: resultHash, :status => 201 }
-					end
-				else
-					errorHash = Hash.new
-					errorHash["status"] = 400
-					errorHash["errormessage"] = "Parameters did not pass validation"
-					respond_to do |f|
-						f.json { render json: errorHash, callback: params["callback"], :status => 400 }
-						f.xml { render xml: errorHash, :status => 400 }
-					end
+			if resource.save
+				resultHash = Hash.new
+				resultHash["status"]=201
+				resultHash["resource"]=generateResourceHash(resource)
+				respond_to do |f|
+					f.json { render json: resultHash, :status => 201 }
+					f.xml { render xml: resultHash, :status => 201 }
 				end
 			else
 				errorHash = Hash.new
 				errorHash["status"] = 400
-				errorHash["errormessage"] = "Required parameters missing"
+				errorHash["errormessage"] = "Parameters did not pass validation"
 				respond_to do |f|
 					f.json { render json: errorHash, callback: params["callback"], :status => 400 }
 					f.xml { render xml: errorHash, :status => 400 }
@@ -136,7 +128,7 @@ class Api::V1::ResourceController < ApplicationController
 		else
 			errorHash = Hash.new
 			errorHash["status"] = 400
-			errorHash["errormessage"] = "Check your JSON body, 'resource' parameter not found"
+			errorHash["errormessage"] = "Required parameters missing"
 			respond_to do |f|
 				f.json { render json: errorHash, callback: params["callback"], :status => 400 }
 				f.xml { render xml: errorHash, :status => 400 }

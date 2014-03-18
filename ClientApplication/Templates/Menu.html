@@ -1,0 +1,28 @@
+﻿<nav class="navbar navbar-default" role="navigation" data-ng-controller="MenuCtrl">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand"><strong>TOERH</strong></a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-navbar">
+            <span data-toerh-search=""></span>
+
+            <span data-ng-controller="LoginCtrl" class="navbar-right">
+                <button type="button" class="btn btn-info navbar-btn" data-ng-click="login()">Login with GitHub</button>
+            </span>
+
+            <ul class="nav navbar-nav">
+                <li><a href="javascript:;" data-ng-click="getAllResources()">Resources</a></li>
+                <li data-ng-controller="LoginCtrl" data-ng-show="isLoggedIn">
+                    <a href="javascript:;" data-ng-controller="AddCtrl" data-ng-click="openAddResourceModal()">Add resource</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

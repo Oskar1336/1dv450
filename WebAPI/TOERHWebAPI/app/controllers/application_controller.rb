@@ -1,16 +1,10 @@
 require 'digest/sha2'
 
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session
 
   protected
 	@@current_username = ""
-  
-  def previousPageLink(controller)
-    
-  end
   
   def changePageLink(controller, previousPage)
     pageLink = "http://localhost:3000/api/v1/" + controller
@@ -79,53 +73,53 @@ class ApplicationController < ActionController::Base
   # User
   def generateUserHash(user)
   	userHash = Hash.new
-		userHash["firstname"]=user.firstname
-		userHash["lastname"]=user.lastname
+		userHash["name"]=user.name
 		userHash["username"]=user.username
 		userHash["email"]=user.email
 		return userHash
   end
   
   # User validation
-  	def validateApiKey
-  		key = ApiKey.find_by key: params[:apikey]
-			if key == nil
-				errorHash = Hash.new
-				errorHash["status"] = 401
-				errorHash["errormessage"] = "Application apikey is missing or it's wrong"
-				respond_to do |f|
-					f.json { render json: errorHash, :status => 401 }
-					f.xml { render xml: errorHash, :status => 401 }
-				end
-				return false
-			else
-				return true
-			end
-  	end
-  	
-  	def validateUser
-  		authenticate_or_request_with_http_basic do |username, password|
-				@@current_username = username
-				User.find_by_username(username).password == Digest::SHA512.hexdigest(password)
-			end
-  	end
-    
-    def auth_admin
-      if session[:username]
-        return true
-      else
-        flash[:loginnotice] = "You must be signed in as admin to view the requested page."
-        redirect_to :controller => "login", :action => "login"
-        return false
+  def validateApiKey
+    key = ApiKey.find_by key: params[:apikey]
+    if key == nil
+      errorHash = Hash.new
+      errorHash["status"] = 401
+      errorHash["errormessage"] = "Application apikey is missing or it's wrong"
+      respond_to do |f|
+        f.json { render json: errorHash, :status => 401 }
+        f.xml { render xml: errorHash, :status => 401 }
       end
+      return false
+    else
+      return true
     end
+  end
+  
+  def validateUser
+    authenticate_or_request_with_http_basic do |username, password|
+      @@current_username = username
+      User.find_by_username(username).password_digest == Digest::SHA512.hexdigest(password)
+    end
+  end
     
-    def save_login_state
-      if session[:username]
-        redirect_to :controller => "admin", :action => "index"
-        return false
-      else
-        return true
-      end
+  def auth_admin
+    if session[:username]
+      return true
+    else
+      flash[:loginnotice] = "You must be signed in as admin to view the requested page."
+      redirect_to :controller => "login", :action => "login"
+      return false
     end
+  end
+  
+  def save_login_state
+    if session[:username]
+      redirect_to :controller => "admin", :action => "index"
+      return false
+    else
+      return true
+    end
+  end
 end
+  

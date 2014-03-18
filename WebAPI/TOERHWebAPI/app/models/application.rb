@@ -4,7 +4,7 @@ class Application < ActiveRecord::Base
 	# Validation
 	validates :contact_mail, :application_name, :presence => true
 	validates :contact_mail, uniqueness: { case_sensitive: false }, format: {
-		with: /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/,
+		with: /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/,
 		message: "Not a valid email"
 	}
 end

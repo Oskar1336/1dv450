@@ -8,11 +8,12 @@
 <body>
     <div id="container">
         <div id="wrapper" data-ng-app="TOERH">
-
-            <div data-ng-view=""></div>
+            <span data-toerh-menu=""></span>
+            <div class="center resource-list-width">
+                <div data-ng-view="" class="resource-list-width"></div>
+            </div>
         </div>
     </div>
-
 
     <!-- Scripts -->
     <script src="Scripts/Lib/jquery-1.11.0.js"></script>
@@ -28,10 +29,35 @@
     <!-- App scripts -->
     <script src="Scripts/App/App.js"></script>
     <script src="Scripts/App/Config/Routes.js"></script>
+    <!-- Licence scripts -->
+    <script src="Scripts/App/Licence/Module.js"></script>
+    <!-- Login scripts -->
+    <script src="Scripts/App/Login/Module.js"></script>
+    <script src="Scripts/App/Login/Controllers/LoginCtrl.js"></script>
+    <!-- Menu scripts -->
+    <script src="Scripts/App/Menu/Module.js"></script>
+    <script src="Scripts/App/Menu/Controllers/MenuCtrl.js"></script>
+    <script src="Scripts/App/Menu/Directives/TOERHMenuDirective.js"></script>
+    <!-- Message scripts -->
+    <script src="Scripts/App/Message/Module.js"></script>
+    <script src="Scripts/App/Message/Services/MessageService.js"></script>
+    <!-- Resource scripts -->
     <script src="Scripts/App/Resource/Module.js"></script>
     <script src="Scripts/App/Resource/Services/ResourceFactory.js"></script>
+    <!--<script src="Scripts/App/Resource/Services/ResourceFactory.js"></script>-->
     <script src="Scripts/App/Resource/Controllers/ResourceCtrl.js"></script>
-    <script src="Scripts/App/Login/Module.js"></script>
+    <script src="Scripts/App/Resource/Controllers/AddCtrl.js"></script>
+    <!-- ResourceType scripts -->
+    <script src="Scripts/App/ResourceType/Module.js"></script>
+    <!-- Search scripts -->
+    <script src="Scripts/App/Search/Module.js"></script>
+    <script src="Scripts/App/Search/Directives/TOERHSearchDirective.js"></script>
+    <script src="Scripts/App/Search/Controllers/SearchCtrl.js"></script>
+    <!-- Tag scripts -->
+    <script src="Scripts/App/Tag/Module.js"></script>
+    <script src="Scripts/App/Tag/Services/TagFactory.js"></script>
+    <!-- User scripts -->
+    <script src="Scripts/App/User/Module.js"></script>
     <!-- End App scripts -->
 </body>
 </html>

@@ -1,15 +1,21 @@
-﻿<div data-ng-controller="ResourceCtrl">
+﻿<div data-ng-controller="ResourceCtrl" class="resource-list-width">
+    <div id="userMessage" class="hidden accordion-width"></div>
     <div class="accordion-width">
         <accordion close-others="false">
             <accordion-group class="accordion-width" is-open="isopen" data-ng-repeat="resource in resources">
                 <accordion-heading>
                     {{resource.resource_name}} <i class="pull-right glyphicon" data-ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
                 </accordion-heading>
+                <span data-ng-show="isLoggedIn">
+                    <button class="btn btn-danger" data-ng-click="delete(resource)">Delete</button> 
+                    <button class="btn btn-info" data-ng-click="edit(resource)">Edit</button>
+                </span>
+                <br />
                 <strong>Description:</strong> {{resource.description}}<br />
                 <strong>Url:</strong> <a href="{{resource.url}}">{{resource.url}}</a><br />
                 <strong>Created:</strong> {{resource.created|date:'yyyy-MM-dd HH:mm'}}<br />
                 <strong>Resource type:</strong> {{resource.resource_type.resourcetype}}<br />
-                <strong>User:</strong> {{resource.user.firstname}} {{resource.user.lastname}}<br />
+                <strong>User:</strong> {{resource.user.name}}<br />
                 <strong>Username:</strong> {{resource.user.username}}<br />
                 <strong>User mail:</strong> {{resource.user.email}}<br />
                 <strong>License:</strong> {{resource.licence.licence}}<br />
@@ -22,7 +28,9 @@
             </accordion-group>
         </accordion>
 
-        <a href="javascript:;" id="previousPage" data-ng-click="loadPage(true)">Previous</a>
-        <a href="javascript:;" id="nextPage" data-ng-click="loadPage(false)">Next</a>
+        <ul class="pager">
+            <li><a href="javascript:;" data-ng-click="loadNextOrPreviousPage(true)">Previous</a></li>
+            <li><a href="javascript:;" data-ng-click="loadNextOrPreviousPage(false)">Next</a></li>
+        </ul>
     </div>
 </div>

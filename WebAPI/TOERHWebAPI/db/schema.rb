@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140217215830) do
+ActiveRecord::Schema.define(version: 20140314213319) do
 
   create_table "api_keys", force: true do |t|
     t.integer  "Application_id"
@@ -43,11 +43,11 @@ ActiveRecord::Schema.define(version: 20140217215830) do
     t.integer  "resource_type_id",             null: false
     t.integer  "user_id",                      null: false
     t.integer  "licence_id",                   null: false
+    t.string   "name",             limit: 100
     t.string   "description",                  null: false
     t.string   "url",                          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name",             limit: 100
   end
 
   create_table "resources_tags", force: true do |t|
@@ -62,13 +62,17 @@ ActiveRecord::Schema.define(version: 20140217215830) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "firstname",  limit: 40,  null: false
-    t.string   "lastname",   limit: 50,  null: false
-    t.string   "email",      limit: 40,  null: false
-    t.string   "username",   limit: 30
-    t.string   "password",   limit: 130
+    t.string   "email",           limit: 40, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "name"
+    t.string   "token"
+    t.string   "auth_token"
+    t.datetime "token_expires"
+    t.string   "username"
+    t.string   "password_digest"
   end
 
 end

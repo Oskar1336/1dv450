@@ -1,31 +1,46 @@
 ﻿
 
-angular.module("TOERH.Resource").controller("ResourceCtrl", ["$scope", "$rootScope", "$routeParams", "ResourceFactory",
-    function ($scope, $rootScope, $routeParams, ResourceFactory) {
-        var apidata = null;
-        var resourcePromise = ResourceFactory.getAllResources();
-        resourcePromise.success(function (data) {
-            apidata = data;
+angular.module("TOERH.Resource").controller("ResourceCtrl", ["$scope", "$rootScope", "$routeParams", "$location", "ResourceFactory", "MessageService",
+    function ($scope, $rootScope, $routeParams, $location, ResourceFactory, MessageService) {
+        $scope.apidata = null;
+        $scope.isLoggedIn = true; //$scope.$parent.$$prevSibling.$$childTail.$$childTail.isLoggedIn; @TODO: fix check login.
+
+        ResourceFactory.getAllResources().success(function (data) {
+            $scope.apidata = data;
             $scope.resources = data.resources;
-        });
-        resourcePromise.error(function (error) {
-            console.log("@TODO: Handle Error");
+        }).error(function (error) {
+            MessageService.showMessage("<strong>Error:</strong> Error while fetching resources.", "alert alert-danger", "userMessage");
         });
 
-        $scope.loadPage = function (previousPage) {
+        // Delete a resource.
+        $scope.delete = function (resource) {
+            ResourceFactory.deleteResource(resource.resource_id).success(function (data) {
+                var index = $scope.resources.indexOf(resource);
+                $scope.resources.splice(index, 1);
+                MessageService.showMessage("<strong>Success:</strong> " + resource.resource_name + " deleted.", "alert alert-success", "userMessage");
+            }).error(function (error) {
+                if (error.status === 403) {
+                    MessageService.showMessage("<strong>Error:</strong> Not authorized to access " + resource.resource_name + ".", "alert alert-danger", "userMessage");
+                } else {
+                    MessageService.showMessage("<strong>Error:</strong> Error while deleting " + resource.resource_name + ".", "alert alert-danger", "userMessage");
+                }
+            });
+        };
+
+        // Loads next or previous page.
+        $scope.loadNextOrPreviousPage = function (previousPage) {
             if (previousPage) {
-                var promise = ResourceFactory.getAllResources(apidata.previousPage);
+                var promise = ResourceFactory.getAllResources($scope.apidata.previousPage);
             } else {
-                var promise = ResourceFactory.getAllResources(apidata.nextPage);
+                var promise = ResourceFactory.getAllResources($scope.apidata.nextPage);
             }
-            
+
             promise.success(function (data) {
-                apidata = data;
+                $scope.apidata = data;
                 $scope.resources = data.resources;
             });
-
             promise.error(function (error) {
-                console.log("@TODO: Handle Error");
+                MessageService.showMessage("<strong>Error:</strong> Error while fetching resources.", "alert alert-danger", "userMessage");
             });
         };
     }

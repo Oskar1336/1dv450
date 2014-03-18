@@ -17,7 +17,7 @@ class HomeController < ApplicationController
 			while apikey.save == false
 				apikey.key = generateApiKey
 			end
-			ApiKeyMailer.welcome_mail(@app).deliver
+			
 			flash[:newappnotice] = "Successfully created, Your apikey: " + apikey.key + " save this."
 			redirect_to :action => "index"
 		else

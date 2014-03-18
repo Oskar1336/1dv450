@@ -1,0 +1,14 @@
+﻿<span data-ng-controller="SearchCtrl">
+    <div class="navbar-form navbar-right">
+        <div class="form-group">
+            <input data-ng-model="search.value" class="form-control" placeholder="Search for resource"/>
+
+        </div>
+        <button class="btn btn-info" data-ng-click="search()">Search</button>
+    </div>
+    <div class="btn-group navbar-form navbar-right">
+        <select data-ng-model="searchType" data-ng-options="s.name for s in searchTypes" class="btn btn-info">
+            <option value="">-- Search for resource by: --</option>
+        </select>
+    </div>
+</span>
