@@ -1,7 +1,7 @@
 ﻿
 
-angular.module("TOERH.Message").service("MessageService", ["$rootScope",
-    function ($rootScope) {
+angular.module("TOERH.Message").service("MessageService", [function () {
+        'use strict';
         this.showMessage = function (message, classlist, divID) {
             $("#" + divID).removeClass("hidden")
                 .addClass(classlist)

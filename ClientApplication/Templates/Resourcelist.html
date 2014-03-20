@@ -1,23 +1,28 @@
 ﻿<div data-ng-controller="ResourceCtrl" class="resource-list-width">
+    <div class="btn-group button-group-mrg">
+        <button class="btn btn-info">Filter by tag</button>
+        <button class="btn dropdown-toggle btn-primary"><span class="caret"></span></button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <li data-ng-repeat="tag in currentTags"><a href="javascript:;" data-ng-click="setSelectedTag(tag)">{{tag}} <span data-ng-class="isSelected(tag)"></span></a></li>
+        </ul>
+    </div>
     <div id="userMessage" class="hidden accordion-width"></div>
     <div class="accordion-width">
         <accordion close-others="false">
-            <accordion-group class="accordion-width" is-open="isopen" data-ng-repeat="resource in resources">
+            <accordion-group class="accordion-width" is-open="isopen" data-ng-repeat="resource in resources | tagFilter:selectedTags">
                 <accordion-heading>
                     {{resource.resource_name}} <i class="pull-right glyphicon" data-ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
                 </accordion-heading>
                 <span data-ng-show="isLoggedIn">
                     <button class="btn btn-danger" data-ng-click="delete(resource)">Delete</button> 
-                    <button class="btn btn-info" data-ng-click="edit(resource)">Edit</button>
+                    <a href="javascript:;" class="btn btn-info" data-ng-controller="EditCtrl" data-ng-click="openEditResourceModal(resource, $index)">Edit</a>
                 </span>
                 <br />
                 <strong>Description:</strong> {{resource.description}}<br />
-                <strong>Url:</strong> <a href="{{resource.url}}">{{resource.url}}</a><br />
+                <strong>Url:</strong> <a target="_blank" href="{{resource.url}}">{{resource.url}}</a><br />
                 <strong>Created:</strong> {{resource.created|date:'yyyy-MM-dd HH:mm'}}<br />
                 <strong>Resource type:</strong> {{resource.resource_type.resourcetype}}<br />
-                <strong>User:</strong> {{resource.user.name}}<br />
-                <strong>Username:</strong> <a href="javascript:;" data-ng-click="getResourcesByUsername(resource.user.username)">{{resource.user.username}}</a><br />
-                <strong>User mail:</strong> {{resource.user.email}}<br />
+                <strong>Username:</strong> <a href="javascript:;" data-ng-click="getResourcesByUsername(resource.user)">{{resource.user}}</a><br />
                 <strong>License:</strong> {{resource.licence.licence}}<br />
                 <strong>Tags:</strong>
                 <ul>

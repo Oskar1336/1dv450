@@ -1,7 +1,6 @@
 class Api::V1::ResourceController < ApplicationController
 	before_filter :validateApiKey
 	before_filter :validateUser, :except => [:index, :show]
-	# skip_before_filter :verify_authenticity_token, :only => [:create, :update]
 	
 	# GET: api/v1/resource?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe&resourcename=Test&limit=10&page=1
 	def index
@@ -140,68 +139,63 @@ class Api::V1::ResourceController < ApplicationController
 	# PUT: api/v1/resource/:id?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe
 	def update
 		begin
-			if params[:resource].blank? == false
-				resource = Resource.find(params[:id])
-				if params[:resource][:resourcetype].blank? == false
-					resource_type = ResourceType.find_or_create_by_resource_type(params[:resource][:resourcetype])
-					resource.resource_type_id = resource_type.id
+			resource = Resource.find(params[:id])
+			resourcetypeparam = params[:resource_type]
+			licencetypeparam = params[:licence]
+			url = params[:url]
+			tags = params[:tags]
+			name = params[:resource_name]
+			if resourcetypeparam.blank? == false
+				resource_type = ResourceType.find_or_create_by_resource_type(resourcetypeparam)
+				resource.resource_type_id = resource_type.id
+			end
+			if licencetypeparam.blank? == false
+				licence = Licence.find_or_create_by_licence_type(licencetypeparam)
+				resource.licence_id = licence.id
+			end
+			if params[:description].blank? == false
+				resource.description = params[:description]
+			end
+			if url.blank? == false
+				resource.url = url
+			end
+			if name.blank? == false
+				resource.name = name
+			end
+			if tags.blank? == false
+				resource.tags = Array.new
+				tags.each do |tag|
+					tagInfo = Tag.find_or_create_by_tag(tag)
+					resource.tags << tagInfo
 				end
-				if params[:resource][:licencetype].blank? == false
-					licence = Licence.find_or_create_by_licence_type(params[:resource][:licencetype])
-					resource.licence_id = licence.id
-				end
-				if params[:resource][:description].blank? == false
-					resource.description = params[:resource][:description]
-				end
-				if params[:resource][:url].blank? == false
-					resource.url = params[:resource][:url]
-				end
-				if params[:resource][:name].blank? == false
-					resource.name = params[:resource][:name]
-				end
-				if params[:resource][:tags].blank? == false
-					tags = params[:resource][:tags]
-					tags.each do |tag|
-						tagInfo = Tag.find_or_create_by_tag(tag)
-						resource.tags << tagInfo
-					end
-				end
-				user = User.find_by_username(@@current_username)
-				if user.id == resource.user_id
-					resource.updated_at = DateTime.now
-					if resource.save
-						resultHash = Hash.new
-						resultHash["status"]=200
-						resultHash["resource"]=generateResourceHash(resource)
-						respond_to do |f|
-							f.json { render json: resultHash, :status => 200 }
-							f.xml { render xml: resultHash, :status => 200 }
-						end
-					else
-						errorHash = Hash.new
-						errorHash["status"] = 400
-						errorHash["errormessage"] = "Parameters did not pass validation"
-						respond_to do |f|
-							f.json { render json: errorHash, :status => 400 }
-							f.xml { render xml: errorHash, :status => 400 }
-						end
+			end
+			user = User.find_by_username(@@current_username)
+			if user.id == resource.user_id
+				resource.updated_at = DateTime.now
+				if resource.save
+					resultHash = Hash.new
+					resultHash["status"]=200
+					resultHash["resource"]=generateResourceHash(resource)
+					respond_to do |f|
+						f.json { render json: resultHash, :status => 200 }
+						f.xml { render xml: resultHash, :status => 200 }
 					end
 				else
 					errorHash = Hash.new
-					errorHash["status"] = 403
-					errorHash["errormessage"] = "Current user does not have access to this resource"
+					errorHash["status"] = 400
+					errorHash["errormessage"] = "Parameters did not pass validation"
 					respond_to do |f|
-						f.json { render json: errorHash, :status => 403 }
-						f.xml { render xml: errorHash, :status => 403 }
+						f.json { render json: errorHash, :status => 400 }
+						f.xml { render xml: errorHash, :status => 400 }
 					end
 				end
 			else
 				errorHash = Hash.new
-				errorHash["status"] = 400
-				errorHash["errormessage"] = "'resource' element missing in request body"
+				errorHash["status"] = 403
+				errorHash["errormessage"] = "Current user does not have access to this resource"
 				respond_to do |f|
-					f.json { render json: errorHash, :status => 400 }
-					f.xml { render xml: errorHash, :status => 400 }
+					f.json { render json: errorHash, :status => 403 }
+					f.xml { render xml: errorHash, :status => 403 }
 				end
 			end
 		rescue

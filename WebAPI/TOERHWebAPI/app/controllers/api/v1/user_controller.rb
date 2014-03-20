@@ -21,7 +21,7 @@ class Api::V1::UserController < ApplicationController
 			resultHash = Hash.new
 			resultArray = Array.new
 			users.each do |user|
-				resultArray << generateUserHash(user)
+				resultArray << user.username
 			end
 			resultHash["status"] = 200
 			resultHash["users"] = resultArray

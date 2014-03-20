@@ -1,6 +1,7 @@
 ﻿
 
 angular.module("TOERH.ResourceType").factory("ResourceTypeFactory", ["$http", function ($http) {
+    'use strict';
     return {
         getAllResourceType: function () {
             return $http({

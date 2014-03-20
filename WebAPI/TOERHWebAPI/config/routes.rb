@@ -2,7 +2,7 @@ TOERHWebAPI::Application.routes.draw do
   root 'home#index'
   
   get "/auth/:provider/callback" => "session#create"
-  get "/signout" => "session#destroy", :as => :signout
+  get "/signout" => "session#destroy", :as => :signout, :defaults => { :format => "json" }
   get "/authenticate" => "session#authenticate"
   
   get "home/new"

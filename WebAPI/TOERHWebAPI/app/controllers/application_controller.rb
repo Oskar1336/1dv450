@@ -47,8 +47,9 @@ class ApplicationController < ActionController::Base
     resourceHash["description"]=resource.description
     resourceHash["url"]=resource.url
     resourceHash["created"]=resource.created_at
+    resourceHash["updated"]=resource.updated_at
 		resourceHash["resource_type"]=generateResourceTypeHash(resource.resource_type)
-		resourceHash["user"]=generateUserHash(resource.user)
+		resourceHash["user"]=resource.user.username
 		resourceHash["licence"]=generateLicenceHash(resource.licence)
 		resourceHash["tags"]=tagArray
 		return resourceHash
@@ -70,15 +71,6 @@ class ApplicationController < ActionController::Base
   	return resourcetypeHash
   end
   
-  # User
-  def generateUserHash(user)
-  	userHash = Hash.new
-		userHash["name"]=user.name
-		userHash["username"]=user.username
-		userHash["email"]=user.email
-		return userHash
-  end
-  
   # User validation
   def validateApiKey
     key = ApiKey.find_by key: params[:apikey]
@@ -97,9 +89,37 @@ class ApplicationController < ActionController::Base
   end
   
   def validateUser
-    authenticate_or_request_with_http_basic do |username, password|
-      @@current_username = username
-      User.find_by_username(username).password_digest == Digest::SHA512.hexdigest(password)
+    auth_token = request.headers["X-Auth-Token"]
+    user = User.find_by_auth_token(auth_token)
+    if user != nil
+      if user.token_expires.to_date < Time.now
+        @@current_username = user.username
+        return true
+      else
+        errorHash = Hash.new
+        errorHash["status"] = 401
+        errorHash["errormessage"] = "Auth token is out dated"
+        respond_to do |f|
+          f.json { render json: errorHash, :status => 401 }
+          f.xml { render xml: errorHash, :status => 401 }
+        end
+        return false
+      end
+    else
+      errorHash = Hash.new
+      errorHash["status"] = 401
+      errorHash["errormessage"] = "Auth token is missing or it's wrong"
+      respond_to do |f|
+        f.json { render json: errorHash, :status => 401 }
+        f.xml { render xml: errorHash, :status => 401 }
+      end
+      return false 
+    end
+    if auth_token == nil
+      authenticate_or_request_with_http_basic do |username, password|
+        @@current_username = username
+        User.find_by_username(username).password == Digest::SHA512.hexdigest(password)
+      end
     end
   end
     

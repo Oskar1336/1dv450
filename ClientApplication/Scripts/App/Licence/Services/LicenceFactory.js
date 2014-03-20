@@ -1,6 +1,7 @@
 ﻿
 
 angular.module("TOERH.Licence").factory("LicenceFactory", ["$http", function ($http) {
+    'use strict';
     return {
         getAllLicences: function () {
             return $http({

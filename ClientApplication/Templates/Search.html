@@ -1,9 +1,20 @@
 ﻿<span data-ng-controller="SearchCtrl">
     <div class="navbar-form navbar-right">
         <div class="form-group">
-            <input data-ng-model="search.value" class="form-control" placeholder="Search for resource" data-ng-show="showTextSearch() == true"/>
-            <select data-ng-model="licence" data-ng-options="l.licence for l in licences" class="form-control" data-ng-hide="showTextSearch() == true">
+            <input data-ng-model="search.value" class="form-control" placeholder="Search for resource" data-ng-show="showTextSearch()"/>
+            <select data-ng-model="licence" data-ng-options="l.licence for l in licences" class="form-control" data-ng-show="licenceSelected()">
                 <option value="">-- Licences: --</option>
+            </select>
+            <select data-ng-model="tag" data-ng-options="tag for tag in tags" class="form-control" data-ng-show="tagSelected()">
+                <option value="">-- Tags: --</option>
+            </select>
+
+            <select data-ng-model="resourcetype" data-ng-options="rt.resourcetype for rt in resourceTypes" class="form-control" data-ng-show="resourcetypeSelected()">
+                <option value="">-- Resource type: --</option>
+            </select>
+
+            <select data-ng-model="user" data-ng-options="u for u in users" class="form-control" data-ng-show="userSelected()">
+                <option value="">-- User: --</option>
             </select>
         </div>
         <button class="btn btn-info" data-ng-click="search()">Search</button>

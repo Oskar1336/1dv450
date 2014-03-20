@@ -7,8 +7,9 @@ angular.module("TOERH").config(["$routeProvider", "$httpProvider",
         $routeProvider.when("/", {
             controller: "ResourceCtrl",
             templateUrl: "/Templates/Resourcelist.html"
-        }).when("/search", {
-
+        }).when("/resource/add", {
+            controller: "AddCtrl",
+            templateUrl: "/Templates/AddResource.html"
         }).otherwise({
             redirectTo: "/"
         });

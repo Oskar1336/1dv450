@@ -5,47 +5,48 @@ Målgruppen till denna tjänst är främst lärare och utbildare som använder s
 ##Exempel
 ###Postman
 Här finns det en postman collection som man kan importera för att testa apiet.
-[Postman collection](https://www.getpostman.com/collections/730645965917583b8092)
+[Postman collection](https://www.getpostman.com/collections/f7608ac5f0d72e0512bd)
 
 ###Resurser
 ####Hämta alla resurser
-Man kan välja att lägga till parametern &limit=int i url:en för att välja de översta resurserna.
 ```
-http://localhost:3000/api/v1/resource?apikey=yourapikey
+GET: http://localhost:3000/api/v1/resource?apikey=yourapikey
+```
+Ytterliggare parametrar:
+```
+&limit=number - Sätter hur många resurser som ska returneras.
+&page=page - Hämtar enbart den angivna sidan. Kan komineras med &limit för att välja hur många resurser det ska vara på varje sida.
 ```
 #####Resultat
 ```
 {
-	"status": 200,
-	"resources": [
-		{
-      "resource_id": 2,
-      "resource_name": "Test2",
-      "description": "Test2",
-      "url": "/test2",
-      "created": "2014-02-12T22:48:40.000Z",
-      "resource_type": {
-          "id": 2,
-          "resourcetype": "Media"
-      },
-      "user": {
-          "firstname": "Mike",
-          "lastname": "Ross",
-          "username": "mike",
-          "email": "mike@suits.com"
-      },
-      "licence": {
-          "id": 2,
-          "licence": "Attribution-ShadeAlike CC BY-SA"
-      },
-      "tags": [
-          {
-              "tag": "School"
-          }
+	status: 200
+  -resources: [
+    {
+      resource_id: 55
+      resource_name: "Google"
+      description: "Search engine"
+      url: http://google.se
+      created: "2014-03-19T16:34:22.001Z"
+      updated: "2014-03-20T16:08:46.301Z"
+      resource_type: {
+        id: 959440
+        resourcetype: "Search engine"
+      }
+      user: "Oskar1336"
+      licence: {
+        id: 1
+        licence: "Attribution CC BY"
+      }
+      tags: [
+        "Search engine"
+        "Searchengine"
+        "search engine"
       ]
-  	},
-  	....
-	]
+    }
+  ]
+  nextPage: http://localhost:3000/api/v1/resource?apikey=yourapikey&page=2&limit=5&resourcename=Google
+  previousPage: http://localhost:3000/api/v1/resource?apikey=yourapikey&page=1&limit=5&resourcename=Google
 }
 ```
 #####Error
@@ -54,84 +55,79 @@ Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 Om ingen resurs hittas så returneras en 404 Not Found samt en error body.
 ####Hämta ut en resurs
 ```
-http://localhost:3000/api/v1/resource/:id?apikey=yourapikey
+GET: http://localhost:3000/api/v1/resource/:id?apikey=yourapikey
 ```
 #####Resultat
 ```
 {
-  "status": 200,
-  "resource": {
-    "resource_id": 2,
-    "resource_name": "Test2",
-    "description": "Test2",
-    "url": "/test2",
-    "created": "2014-02-12T22:48:40.000Z",
-    "resource_type": {
-      "id": 2,
-      "resourcetype": "Media"
-    },
-    "user": {
-      "firstname": "Mike",
-      "lastname": "Ross",
-      "username": "mike",
-      "email": "mike@suits.com"
-    },
-    "licence": {
-      "id": 2,
-      "licence": "Attribution-ShadeAlike CC BY-SA"
-    },
-    "tags": [
-      {
-        "tag": "School"
-      }
+  status: 200
+  resource: {
+    resource_id: 55
+    resource_name: "Google"
+    description: "Search engine"
+    url: http://google.se
+    created: "2014-03-19T16:34:22.001Z"
+    updated: "2014-03-20T16:08:46.301Z"
+    resource_type: {
+      id: 959440
+      resourcetype: "Search engine"
+    }
+    user: "Oskar1336"
+    licence: {
+      id: 1
+      licence: "Attribution CC BY"
+    }
+    tags: [
+      "Search engine"
+      "Searchengine"
+      "search engine"
     ]
   }
 }
-```
 #####Error
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 
 Om resursen inte hittas så returneras en 404 Not Found samt en error body.
 ####Sök efter resurs
-Man kan välja att lägga till parametern &limit=int i url:en för att välja de översta resurserna.
 För att söka efter en resurs så krävs parametern resourcename. Man söker då på resursnamnet.
 ```
-http://localhost:3000/api/v1/resource?apikey=yourapikey&resourcename=pic
+GET: http://localhost:3000/api/v1/resource?apikey=yourapikey&resourcename=pic
+```
+Ytterliggare parametrar:
+```
+&limit=number - Sätter hur många resurser som ska returneras.
+&page=page - Hämtar enbart den angivna sidan. Kan komineras med &limit för att välja hur många resurser det ska vara på varje sida.
 ```
 #####Resultat
 ```
 {
-  "status": 200,
-  "resources": [
-    {
-      "resource_id": 14,
-      "resource_name": "Updated pic",
-      "description": "This is a updated picture",
-      "url": "/testpic",
-      "created": "2014-02-17T22:46:51.091Z",
-      "resource_type": {
-        "id": 1,
-        "resourcetype": "Picture"
-      },
-      "user": {
-        "firstname": "Testuser",
-        "lastname": "Testing",
-        "username": "test",
-        "email": "test@test.se"
-      },
-      "licence": {
-        "id": 1,
-        "licence": "Attribution CC BY"
-      },
-      "tags": [
-        {
-          "tag": "Picture"
-        },
-        ....
+  status: 200
+  -resources: [
+    -{
+      resource_id: 55
+      resource_name: "Google"
+      description: "Search engine"
+      url: http://google.se
+      created: "2014-03-19T16:34:22.001Z"
+      updated: "2014-03-20T16:08:46.301Z"
+      -resource_type: {
+        id: 959440
+        resourcetype: "Search engine"
+      }
+      user: "Oskar1336"
+      -licence: {
+        id: 1
+        licence: "Attribution CC BY"
+      }
+      -tags: [
+        "Search engine"
+        "Searchengine"
+        "search engine"
       ]
-    },
-    ....
+    }
   ]
+  nextPage: http://localhost:3000/api/v1/resource?apikey=yourapikey&page=2&limit=5&resourcename=Google
+  previousPage: http://localhost:3000/api/v1/resource?apikey=yourapikey&page=1&limit=5&resourcename=Google
 }
 ```
 #####Error
@@ -141,7 +137,7 @@ Om ingen resurs hittas så returneras en 404 Not Found samt en error body.
 ####Ta bort en resurs
 För att ta bort en resurs så måste den auktoriserad användaren äga resursen.
 ```
-http://localhost:3000/api/v1/resource/:id?apikey=yourapikey
+DELETE: http://localhost:3000/api/v1/resource/:id?apikey=yourapikey
 ```
 #####Resultat
 Här returneras en 204 no content status.
@@ -155,54 +151,48 @@ Om resursen inte hittas så returneras en 404 Not Found.
 Om användaren har fel inloggningsuppgifter så returneras en 401 Unauthorized.
 ####Ändra en resurs
 ```
-http://localhost:3000/api/v1/resource/:id?apikey=yourapikey
+PUT: http://localhost:3000/api/v1/resource/:id?apikey=yourapikey
 ```
 För att ändra en resurs så skickar man en json body till servern med de parametrar man vill uppdatera.
 Man måste ha parametren "resource", annars så är alla parametrar frivilliga om man vill ha med eller inte. Om en parameter är tom så kommer den inte att uppdateras.
 ```
 {
-  "resource": {
-    "resourcetype":"", 
-    "licencetype":"",
-    "description":"",
-    "url":"",
-    "name":"",
-    "tags":[
-      "",
-      ...
-    ]
-  }
+  "resourcetype":"",
+  "licencetype":"",
+  "description":"",
+  "url":"",
+  "name":"",
+  "tags":[
+    "",
+    ...
+  ]
 }
 ```
 #####Resultat
 Man får tillbaka den uppdaterade resursen.
 ```
 {
-  "status": 200,
-  "resource": {
-    "resource_id": 11,
-    "resource_name": "Updated pic",
-    "description": "This is a updated picture",
-    "url": "/testpic",
-    "created": "2014-02-17T21:44:19.097Z",
-    "resource_type": {
-      "id": 1,
-      "resourcetype": "Picture"
-    },
-    "user": {
-      "firstname": "Testuser",
-      "lastname": "Testing",
-      "username": "test",
-      "email": "test@test.se"
-    },
-    "licence": {
-      "id": 1,
-      "licence": "Attribution CC BY"
-    },
-    "tags": [
-      {
-        "tag": "Helpfull"
-      }
+  status: 200
+  -resource: {
+    resource_id: 55
+    resource_name: "Google"
+    description: "Search engine"
+    url: http://google.se
+    created: "2014-03-19T16:34:22.001Z"
+    updated: "2014-03-20T16:08:46.301Z"
+    -resource_type: {
+      id: 959440
+      resourcetype: "Search engine"
+    }
+    user: "Oskar1336"
+    -licence: {
+      id: 1
+      licence: "Attribution CC BY"
+    }
+    -tags: [
+      "Search engine"
+      "Searchengine"
+      "search engine"
     ]
   }
 }
@@ -214,62 +204,51 @@ Om parameternas värde inte går igenom valideringen så returneras en 400 Bad R
 
 Om den auktoriserade användaren inte äger resursen som ska ändras så returneras en 403 Forbidden.
 
-Om parametern "resource" fattas så returneras en 400 Bad Request.
-
 Om resursen inte finns så returneras en 404 Not Found.
 
 Om användaren har fel inloggningsuppgifter så returneras en 401 Unauthorized.
 ####Skapa en resurs
 ```
-http://localhost:3000/api/v1/resource?apikey=yourapikey
+POST: http://localhost:3000/api/v1/resource?apikey=yourapikey
 ```
 När man ska skapa en resurs så måste man ha med "resourcetype", "licencetype", "name" och "url".
 ```
 {
-  "resource": {
-    "resourcetype":"Picture",
-    "licencetype":"Attribution CC BY",
-    "description":"A awesome picture",
-    "url":"/awesomepic",
-    "name":"My awesome picture",
-    "tags":[
-      "Picture",
-      "Awesome"
-    ]
-  }
+  "resourcetype":"",
+  "licencetype":"",
+  "description":"",
+  "url":"",
+  "name":"",
+  "tags":[
+    "",
+    ...
+  ]
 }
 ```
 #####Resultat
 ```
 {
-  "status": 201,
-  "resource": {
-    "resource_id": 18,
-    "resource_name": "My awesome picture",
-    "description": "A awesome picture",
-    "url": "/awesomepic",
-    "created": "2014-02-20T15:37:40.321Z",
-    "resource_type": {
-      "id": 1,
-      "resourcetype": "Picture"
-    },
-    "user": {
-      "firstname": "Testuser",
-      "lastname": "Testing",
-      "username": "test",
-      "email": "test@test.se"
-    },
-    "licence": {
-      "id": 1,
-      "licence": "Attribution CC BY"
-    },
-    "tags": [
-      {
-        "tag": "Picture"
-      },
-      {
-        "tag": "Awesome"
-      }
+  status: 201,
+  resource: {
+    resource_id: 55
+    resource_name: "Google"
+    description: "Search engine"
+    url: http://google.se
+    created: "2014-03-19T16:34:22.001Z"
+    updated: "2014-03-20T16:08:46.301Z"
+    -resource_type: {
+      id: 959440
+      resourcetype: "Search engine"
+    }
+    user: "Oskar1336"
+    -licence: {
+      id: 1
+      licence: "Attribution CC BY"
+    }
+    -tags: [
+      "Search engine"
+      "Searchengine"
+      "search engine"
     ]
   }
 }
@@ -281,14 +260,16 @@ Om parameternas värde inte går igenom valideringen så returneras en 400 Bad R
 
 Om parametrar som måste finnas saknas så returneras en 400 Bad Request.
 
-Om parametern "resource" fattas så returneras en 400 Bad Request.
-
 Om användaren har fel inloggningsuppgifter så returneras en 401 Unauthorized.
 ###License
 ####Hämta alla licenser
-Man kan välja att lägga till parametern &limit=int i url:en för att välja de översta licenserna.
 ```
-http://localhost:3000/api/v1/licence?apikey=yourapikey
+GET: http://localhost:3000/api/v1/licence?apikey=yourapikey
+```
+Ytterliggare parametrar:
+```
+&limit=number - Sätter hur många licenser som ska returneras.
+&page=page - Hämtar enbart den angivna sidan. Kan komineras med &limit för att välja hur många licenser det ska vara på varje sida.
 ```
 #####Resultat
 ```
@@ -300,17 +281,23 @@ http://localhost:3000/api/v1/licence?apikey=yourapikey
       "licence": "Attribution CC BY"
     },
     ....
-  ]
+  ],
+  nextPage: http://localhost:3000/api/v1/licence?apikey=yourapikey&page=2&limit=10,
+  previousPage: http://localhost:3000/api/v1/licence?apikey=yourapikey&page=1&limit=10
 }
 ```
 #####Error
-Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
+Om api nyckeln inte finns eller inte är korrekt så returneras en 401 Unauthorized.
 
 Om inga licenser hittas så returneras en 404 Not Found.
 ####Hämta alla resurser för en license
-Man kan välja att lägga till parametern &limit=int i url:en för att välja antalet resurser som ska hämtas.
 ```
-http://localhost:3000/api/v1/licence/:id?apikey=yourapikey
+GET: http://localhost:3000/api/v1/licence/:id?apikey=yourapikey
+```
+Ytterliggare parametrar:
+```
+&limit=number - Sätter hur många resurser som ska returneras.
+&page=page - Hämtar enbart den angivna sidan. Kan komineras med &limit för att välja hur många resurser det ska vara på varje sida.
 ```
 #####Resultat
 ```
@@ -322,33 +309,31 @@ http://localhost:3000/api/v1/licence/:id?apikey=yourapikey
   },
   "resources": [
     {
-      "resource_id": 7,
-      "resource_name": "My Document",
-      "description": "Document",
-      "url": "/test7",
-      "created": "2014-02-12T22:49:55.000Z",
-      "resource_type": {
-        "id": 7,
-        "resourcetype": "Excel"
-      },
-      "user": {
-        "firstname": "Sarah",
-        "lastname": "Connor",
-        "username": "sarah",
-        "email": "sarah@terminator.com"
-      },
-      "licence": {
-        "id": 1,
-        "licence": "Attribution CC BY"
-      },
-      "tags": [
-        {
-          "tag": "Optional"
-        }
+      resource_id: 55
+      resource_name: "Google"
+      description: "Search engine"
+      url: http://google.se
+      created: "2014-03-19T16:34:22.001Z"
+      updated: "2014-03-20T16:08:46.301Z"
+      -resource_type: {
+        id: 959440
+        resourcetype: "Search engine"
+      }
+      user: "Oskar1336"
+      -licence: {
+        id: 1
+        licence: "Attribution CC BY"
+      }
+      -tags: [
+        "Search engine"
+        "Searchengine"
+        "search engine"
       ]
     },
     ....
-  ]
+  ],
+  nextPage: http://localhost:3000/api/v1/licence/1?apikey=yourapikey&page=2&limit=5,
+  previousPage: http://localhost:3000/api/v1/licence/1?apikey=yourapikey&page=1&limit=5
 }
 ```
 #####Error
@@ -357,9 +342,13 @@ Om den efterfrågade resursen inte finns så returneras en 404 Not Found.
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 ###Resourcetype
 ####Hämta alla resurstyper
-Man kan välja att lägga till parametern &limit=int i url:en för att välja de översta resurstyperna.
 ```
-http://localhost:3000/api/v1/resourcetype?apikey=yourapikey
+GET: http://localhost:3000/api/v1/resourcetype?apikey=yourapikey
+```
+Ytterliggare parametrar:
+```
+&limit=number - Sätter hur många resurstyper som ska returneras.
+&page=page - Hämtar enbart den angivna sidan. Kan komineras med &limit för att välja hur många resurstyper det ska vara på varje sida.
 ```
 #####Resultat
 ```
@@ -371,7 +360,9 @@ http://localhost:3000/api/v1/resourcetype?apikey=yourapikey
       "resourcetype": "Picture"
     },
     ....
-  ]
+  ],
+  nextPage: http://localhost:3000/api/v1/resourcetype?apikey=yourapikey&page=2&limit=5,
+  previousPage: http://localhost:3000/api/v1/resourcetype?apikey=yourapikey&page=1&limit=5
 }
 ```
 #####Error
@@ -379,51 +370,44 @@ Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 
 Om inga resurstyper hittas så returneras en 404 Not Found.
 ####Hämta alla resurser för en resurstyp
-Man kan välja att lägga till parametern &limit=int i url:en för att välja antalet resursertyper som ska hämtas.
 :resourcetype är en sök sträng. Där skriver man in vilken resurstyp man vill söka efter och hämtar alla resurser för den resurstypen.
 ```
-http://localhost:3000/api/v1/resourcetype/:resourcetype?apikey=yourapikey
+GET: http://localhost:3000/api/v1/resourcetype/:resourcetype?apikey=yourapikey
+```
+Ytterliggare parametrar:
+```
+&limit=number - Sätter hur många resurser som ska returneras.
+&page=page - Hämtar enbart den angivna sidan. Kan komineras med &limit för att välja hur många resurser det ska vara på varje sida.
 ```
 #####Resultat
 ```
 {
   "status": 200,
-  "result": [
-    {
-      "resourcetype": {
-        "id": 1,
-        "resourcetype": "Picture"
-      },
-      "resources": [
-        {
-          "resource_id": 11,
-          "resource_name": "Updated pic",
-          "description": "This is a updated picture",
-          "url": "/testpic",
-          "created": "2014-02-17T21:44:19.097Z",
-          "resource_type": {
-            "id": 1,
-            "resourcetype": "Picture"
-          },
-          "user": {
-            "firstname": "Sarah",
-            "lastname": "Connor",
-            "username": "sarah",
-            "email": "sarah@terminator.se"
-          },
-          "licence": {
-            "id": 1,
-            "licence": "Attribution CC BY"
-          },
-          "tags": [
-            {
-              "tag": "Helpfull"
-            }
-          ]
-        },
-        ....
+  resources: [
+    -{
+      resource_id: 81
+      resource_name: "Nytt test1"
+      description: "test"
+      url: "test"
+      created: "2014-03-20T16:30:47.714Z"
+      updated: "2014-03-20T16:30:47.715Z"
+      -resource_type: {
+        id: 959441
+        resourcetype: "test"
+      }
+      user: "Oskar1336"
+      -licence: {
+        id: 1
+        licence: "Attribution CC BY"
+      }
+      -tags: [
+        "test"
       ]
     }
+    ....
+  ],
+  nextPage: http://localhost:3000/api/v1/resourcetype/test?apikey=yourapikey&page=2&limit=5,
+  previousPage: http://localhost:3000/api/v1/resourcetype/test?apikey=yourapikey&page=1&limit=5
 }
 ```
 #####Error
@@ -432,20 +416,24 @@ Om den efterfrågade resursen inte finns så returneras en 404 Not Found.
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 ###Tag
 ####Hämta ut alla taggar
-Man kan välja att lägga till parametern &limit=int i url:en för att välja de översta taggarna.
 ```
-http://localhost:3000/api/v1/tag?apikey=yourapikey
+GET: http://localhost:3000/api/v1/tag?apikey=yourapikey
+```
+Ytterliggare parametrar:
+```
+&limit=number - Sätter hur många taggar som ska returneras.
+&page=page - Hämtar enbart den angivna sidan. Kan komineras med &limit för att välja hur många taggar det ska vara på varje sida.
 ```
 #####Resultat
 ```
 {
   "status": 200,
   "tags": [
-    {
-      "tag": "Picture"
-    },
+    "Picture",
     ....
-  ]
+  ],
+  nextPage: http://localhost:3000/api/v1/tag?apikey=yourapikey&page=2&limit=5,
+  previousPage: http://localhost:3000/api/v1/tag?apikey=yourapikey&page=1&limit=5
 }
 ```
 #####Error
@@ -453,56 +441,45 @@ Om inga taggar hittas så returneras en 404 Not Found.
 
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 ####Hämta ut alla resurser för en tag
-Man kan välja att lägga till parametern &limit=int i url:en för att välja antalet resurser som ska hämtas.
 :tag är en parameter där tagnamnet ska skrivas in.
 ```
-http://localhost:3000/api/v1/tag/:tag?apikey=yourapikey
+GET: http://localhost:3000/api/v1/tag/:tag?apikey=yourapikey
+```
+Ytterliggare parametrar:
+```
+&limit=number - Sätter hur många resurser som ska returneras.
+&page=page - Hämtar enbart den angivna sidan. Kan komineras med &limit för att välja hur många resurser det ska vara på varje sida.
 ```
 #####Resultat
 ```
 {
   "status": 200,
-  "tag": {
-    "tag": "Picture"
-  },
+  "tag": "test",
   "resources": [
     {
-      "resource_id": 14,
-      "resource_name": "Updated pic",
-      "description": "This is a updated picture",
-      "url": "/testpic",
-      "created": "2014-02-17T22:46:51.091Z",
-      "resource_type": {
-        "id": 1,
-        "resourcetype": "Picture"
-      },
-      "user": {
-        "firstname": "Testuser",
-        "lastname": "Testing",
-        "username": "test",
-        "email": "test@test.se"
-      },
-      "licence": {
-        "id": 1,
-        "licence": "Attribution CC BY"
-      },
-      "tags": [
-        {
-          "tag": "Picture"
-        },
-        {
-          "tag": "Helpfull"
-        },
-        {
-          "tag": "Work"
-        },
-        {
-          "tag": "School"
-        }
+      resource_id: 81
+      resource_name: "Nytt test1"
+      description: "test"
+      url: "test"
+      created: "2014-03-20T16:30:47.714Z"
+      updated: "2014-03-20T16:30:47.715Z"
+      -resource_type: {
+        id: 959441
+        resourcetype: "test"
+      }
+      user: "Oskar1336"
+      -licence: {
+        id: 1
+        licence: "Attribution CC BY"
+      }
+      -tags: [
+        "test"
       ]
     },
     ....
-  ]
+  ],
+  nextPage: http://localhost:3000/api/v1/tag/test?apikey=yourapikey&page=2&limit=2,
+  previousPage: http://localhost:3000/api/v1/tag/test?apikey=yourapikey&page=1&limit=2
 }
 ```
 #####Error
@@ -510,24 +487,25 @@ Om den efterfrågade taggen inte finns så returneras en 404 Not Found.
 
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 ###User
-Man kan välja att lägga till parametern &limit=int i url:en för att välja de översta användarna.
 ####Hämta alla användare
 ```
-http://localhost:3000/api/v1/user?apikey=yourapikey
+GET: http://localhost:3000/api/v1/user?apikey=yourapikey
+```
+Ytterliggare parametrar:
+```
+&limit=number - Sätter hur många användare som ska returneras.
+&page=page - Hämtar enbart den angivna sidan. Kan komineras med &limit för att välja hur många användare det ska vara på varje sida.
 ```
 #####Resultat
 ```
 {
-  "status": 200,
-  "users": [
-    {
-      "firstname": "Mike",
-      "lastname": "Ross",
-      "username": "mike",
-      "email": "mike@suits.com"
-    },
+  status: 200,
+  users: [
+    "Oskar1336",
     ....
-  ]
+  ],
+  nextPage: http://localhost:3000/api/v1/user?apikey=yourapikey&page=2&limit=1,
+  previousPage: http://localhost:3000/api/v1/user?apikey=yourapikey&page=1&limit=1
 }
 ```
 #####Error
@@ -535,49 +513,76 @@ Om inga användare hittas så returneras en 404 Not Found.
 
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 ####Hämta alla resurser en användare äger
-Man kan välja att lägga till parametern &limit=int i url:en för att välja antalet resurser som ska hämtas.
 :username är en sträng som innehåller en användares användarnamn.
 ```
-http://localhost:3000/api/v1/user/:username?apikey=yourapikey
+GET: http://localhost:3000/api/v1/user/:username?apikey=yourapikey
+```
+Ytterliggare parametrar:
+```
+&limit=number - Sätter hur många resurser som ska returneras.
+&page=page - Hämtar enbart den angivna sidan. Kan komineras med &limit för att välja hur många resurser det ska vara på varje sida.
 ```
 #####Resultat
 ```
 {
-  "status": 200,
-  "username": "test",
-  "resources": [
+  status: 200,
+  username: "Oskar1336",
+  resources: [
     {
-      "resource_id": 11,
-      "resource_name": "Updated pic",
-      "description": "This is a updated picture",
-      "url": "/testpic",
-      "created": "2014-02-17T21:44:19.097Z",
-      "resource_type": {
-        "id": 1,
-        "resourcetype": "Picture"
-      },
-      "user": {
-        "firstname": "Testuser",
-        "lastname": "Testing",
-        "username": "test",
-        "email": "test@test.se"
-      },
-      "licence": {
-        "id": 1,
-        "licence": "Attribution CC BY"
-      },
-      "tags": [
-          {
-            "tag": "Helpfull"
-          }
+      resource_id: 55
+      resource_name: "Google"
+      description: "Search engine"
+      url: http://google.se
+      created: "2014-03-19T16:34:22.001Z"
+      updated: "2014-03-20T16:08:46.301Z"
+      -resource_type: {
+        id: 959440
+        resourcetype: "Search engine"
+      }
+      user: "Oskar1336"
+      -licence: {
+        id: 1
+        licence: "Attribution CC BY"
+      }
+      -tags: [
+        "Search engine"
+        "Searchengine"
+        "search engine"
       ]
     },
     ....
-  ]
+  ],
+  nextPage: http://localhost:3000/api/v1/user/Oskar1336?apikey=yourapikey&page=2&limit=5,
+  previousPage: http://localhost:3000/api/v1/user/Oskar1336?apikey=yourapikey&page=1&limit=5
 }
 ```
 #####Error
 Om användaren inte hittas så returneras en 404 Not Found.
 
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
+####Skapa en ny användare
+Kräver att man är inloggad med github eller http basic auth.
+```
+POST: http://localhost:3000/api/v1/user?apikey=yourapikey
+```
+Request body
+```
+{
+  "user":{
+    "email":"",
+    "name":"",
+    "username":"",
+    "password":""
+  }
+}
+```
+#####Resultat
+```
+Statuskod 204 No Content returneras.
+```
+#####Error
+400 Om parametrarna inte går igenom valideringen.
+400 Om en parameter fattas.
+400 Om "user" fattas.
 
+Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.

@@ -1,15 +1,14 @@
 class User < ActiveRecord::Base
 	has_many :resources
 	
-	validates :username, :email, uniqueness: true
+	validates :username, uniqueness: true
 	
 	
-	def self.create_with_omniauth(provider, uid, username, email)
+	def self.create_with_omniauth(provider, uid, username)
 		create! do |user|
 			user.provider = provider
 			user.uid = uid
 			user.username = username
-			user.email = email
 		end
 	end
 end
