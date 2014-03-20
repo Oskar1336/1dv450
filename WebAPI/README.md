@@ -7,6 +7,11 @@ Målgruppen till denna tjänst är främst lärare och utbildare som använder s
 Här finns det en postman collection som man kan importera för att testa apiet.
 [Postman collection](https://www.getpostman.com/collections/f7608ac5f0d72e0512bd)
 
+###Auktorisera
+För att kunna jobba mot unsafe metoder så måste man logga in med HTTP Basic Authorization.
+För att göra det måste man skicka med headern "Authorization": "Basic base64 string". I den headern så ska användarnamn och lösenord skickas med som en base64 decoded sträng, i formatet "användarnamn:lösenord".
+Eller så kan man med Hjälp av Oath logga in via GitHub. Vilket är att föredra.
+
 ###Resurser
 ####Hämta alla resurser
 ```
