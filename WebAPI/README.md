@@ -137,6 +137,7 @@ Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 Om ingen resurs hittas så returneras en 404 Not Found samt en error body.
 ####Ta bort en resurs
 För att ta bort en resurs så måste den auktoriserad användaren äga resursen.
+Kräver inloggning med http basic auth eller GitHub.
 ```
 DELETE: http://localhost:3000/api/v1/resource/:id?apikey=yourapikey
 ```
@@ -151,6 +152,7 @@ Om resursen inte hittas så returneras en 404 Not Found.
 
 Om användaren har fel inloggningsuppgifter så returneras en 401 Unauthorized.
 ####Ändra en resurs
+Kräver inloggning med http basic auth eller GitHub.
 ```
 PUT: http://localhost:3000/api/v1/resource/:id?apikey=yourapikey
 ```
@@ -209,6 +211,7 @@ Om resursen inte finns så returneras en 404 Not Found.
 
 Om användaren har fel inloggningsuppgifter så returneras en 401 Unauthorized.
 ####Skapa en resurs
+Kräver inloggning med http basic auth eller GitHub.
 ```
 POST: http://localhost:3000/api/v1/resource?apikey=yourapikey
 ```
@@ -562,7 +565,7 @@ Om användaren inte hittas så returneras en 404 Not Found.
 
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 ####Skapa en ny användare
-Kräver att man är inloggad med github eller http basic auth.
+Kräver inloggning med http basic auth eller GitHub.
 ```
 POST: http://localhost:3000/api/v1/user?apikey=yourapikey
 ```
