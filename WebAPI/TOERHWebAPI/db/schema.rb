@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140320194000) do
+ActiveRecord::Schema.define(version: 20140320215550) do
 
   create_table "api_keys", force: true do |t|
     t.integer  "Application_id"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 20140320194000) do
     t.datetime "token_expires"
     t.string   "username"
     t.string   "password_digest"
+    t.string   "password_salt"
   end
 
 end

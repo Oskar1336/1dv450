@@ -106,15 +106,26 @@ class ApplicationController < ActionController::Base
   
   def validateUser
     auth_token = request.headers["X-Auth-Token"]
-    user = User.find_by_auth_token(auth_token)
-    if user != nil
-      if user.token_expires.to_date < Time.now
-        @@current_username = user.username
-        return true
+    if auth_token != nil
+      user = User.find_by_auth_token(auth_token)
+      if user != nil
+        if user.token_expires.to_date < Time.now
+          @@current_username = user.username
+          return true
+        else
+          errorHash = Hash.new
+          errorHash["status"] = 401
+          errorHash["errormessage"] = "Auth token is out dated"
+          respond_to do |f|
+            f.json { render json: errorHash, :status => 401 }
+            f.xml { render xml: errorHash, :status => 401 }
+          end
+          return false
+        end
       else
         errorHash = Hash.new
         errorHash["status"] = 401
-        errorHash["errormessage"] = "Auth token is out dated"
+        errorHash["errormessage"] = "Auth token is missing or it's wrong"
         respond_to do |f|
           f.json { render json: errorHash, :status => 401 }
           f.xml { render xml: errorHash, :status => 401 }
@@ -125,23 +136,8 @@ class ApplicationController < ActionController::Base
       if auth_token == nil
         authenticate_or_request_with_http_basic do |username, password|
           @@current_username = username
-          User.find_by_username(username).authenticate(password)    #password == Digest::SHA512.hexdigest(password)
+          User.authenticate(username, password)
         end
-      else
-        errorHash = Hash.new
-        errorHash["status"] = 401
-        errorHash["errormessage"] = "Auth token is missing or it's wrong"
-        respond_to do |f|
-          f.json { render json: errorHash, :status => 401 }
-          f.xml { render xml: errorHash, :status => 401 }
-        end
-        return false 
-      end
-    end
-    if auth_token == nil
-      authenticate_or_request_with_http_basic do |username, password|
-        @@current_username = username
-        User.find_by_username(username).authenticate(password)    #password == Digest::SHA512.hexdigest(password)
       end
     end
   end

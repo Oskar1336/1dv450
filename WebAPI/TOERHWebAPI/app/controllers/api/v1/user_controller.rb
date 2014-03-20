@@ -103,7 +103,7 @@ class Api::V1::UserController < ApplicationController
 				user.provider = "Local"
 				user.auth_token = SecureRandom.urlsafe_base64(nil, false)
 				user.token_expires = Time.now + 5.hours
-				user.password_digest = password #Digest::SHA512.hexdigest(password)
+				user.password_digest = password
 				if user.save
 					resultHash = Hash.new
 					resultHash["status"]=204
