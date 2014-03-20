@@ -84,6 +84,7 @@ GET: http://localhost:3000/api/v1/resource/:id?apikey=yourapikey
     ]
   }
 }
+```
 #####Error
 Om api nyckeln inte finns eller är korrekt så returneras en 401 Unauthorized.
 
