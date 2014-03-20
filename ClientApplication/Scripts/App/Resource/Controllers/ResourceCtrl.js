@@ -10,6 +10,11 @@ angular.module("TOERH.Resource").controller("ResourceCtrl", ["$scope", "$rootSco
         $scope.isLoggedIn = $rootScope.isLoggedIn;
         $rootScope.$watch("isLoggedIn", function () {
             $scope.isLoggedIn = $rootScope.isLoggedIn;
+            if ($rootScope.authInfo.username !== null) {
+                $scope.currentUser = $rootScope.authInfo.username;
+            } else {
+                $scope.currentUser = "";
+            }
         });
         $scope.$watch("resources", function () {
             $scope.currentTags = getAllCurrentTags();

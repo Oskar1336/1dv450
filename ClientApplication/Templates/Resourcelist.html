@@ -3,7 +3,7 @@
         <button class="btn btn-info">Filter by tag</button>
         <button class="btn dropdown-toggle btn-primary"><span class="caret"></span></button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-            <li data-ng-repeat="tag in currentTags"><a href="javascript:;" data-ng-click="setSelectedTag(tag)">{{tag}} <span data-ng-class="isSelected(tag)"></span></a></li>
+            <li data-ng-repeat="tag in currentTags"><a href="javascript:;" data-ng-click="setSelectedTag(tag.tag)">{{tag.tag}} <span data-ng-class="isSelected(tag)"></span></a></li>
         </ul>
     </div>
     <div id="userMessage" class="hidden accordion-width"></div>
@@ -13,7 +13,7 @@
                 <accordion-heading>
                     {{resource.resource_name}} <i class="pull-right glyphicon" data-ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
                 </accordion-heading>
-                <span data-ng-show="isLoggedIn">
+                <span data-ng-show="isLoggedIn && currentUser == resource.user.username">
                     <button class="btn btn-danger" data-ng-click="delete(resource)">Delete</button> 
                     <a href="javascript:;" class="btn btn-info" data-ng-controller="EditCtrl" data-ng-click="openEditResourceModal(resource, $index)">Edit</a>
                 </span>
@@ -22,12 +22,12 @@
                 <strong>Url:</strong> <a target="_blank" href="{{resource.url}}">{{resource.url}}</a><br />
                 <strong>Created:</strong> {{resource.created|date:'yyyy-MM-dd HH:mm'}}<br />
                 <strong>Resource type:</strong> {{resource.resource_type.resourcetype}}<br />
-                <strong>Username:</strong> <a href="javascript:;" data-ng-click="getResourcesByUsername(resource.user)">{{resource.user}}</a><br />
+                <strong>Username:</strong> <a href="javascript:;" data-ng-click="getResourcesByUsername(resource.user.username)">{{resource.user.username}}</a><br />
                 <strong>License:</strong> {{resource.licence.licence}}<br />
                 <strong>Tags:</strong>
                 <ul>
                     <li data-ng-repeat="tag in resource.tags">
-                        <a href="javascript:;" data-ng-click="getResourcesByTag(tag)">{{tag}}</a>
+                        <a href="javascript:;" data-ng-click="getResourcesByTag(tag.tag)">{{tag.tag}}</a>
                     </li>
                 </ul>
             </accordion-group>

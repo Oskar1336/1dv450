@@ -20,7 +20,7 @@ class Api::V1::TagController < ApplicationController
 			resultHash = Hash.new
 			resultArray = Array.new
 			tags.each do |tag|
-				resultArray<<tag.tag
+				resultArray<<generateTagHash(tag)
 			end
 			resultHash["status"]=200
 			resultHash["tags"]=resultArray

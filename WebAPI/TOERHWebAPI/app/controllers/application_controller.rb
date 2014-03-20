@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   	resourceHash = Hash.new
   	tagArray = Array.new
   	resource.tags.each do |tag|
-  		tagArray<<tag.tag
+  		tagArray<<generateTagHash(tag)
   	end
 		resourceHash["resource_id"]=resource.id
     resourceHash["resource_name"]=resource.name
@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
     resourceHash["created"]=resource.created_at
     resourceHash["updated"]=resource.updated_at
 		resourceHash["resource_type"]=generateResourceTypeHash(resource.resource_type)
-		resourceHash["user"]=resource.user.username
+		resourceHash["user"]=generateUserHash(resource.user)
 		resourceHash["licence"]=generateLicenceHash(resource.licence)
 		resourceHash["tags"]=tagArray
 		return resourceHash
@@ -60,6 +60,7 @@ class ApplicationController < ActionController::Base
   	licenceHash = Hash.new
 		licenceHash["id"]=licence.id
 		licenceHash["licence"]=licence.licence_type
+    licenceHash["allresourcesforlicence"] = "http://localhost:3000/api/v1/licence/#{licence.id}?apikey=#{params[:apikey]}"
 		return licenceHash
   end
   
@@ -68,7 +69,22 @@ class ApplicationController < ActionController::Base
   	resourcetypeHash = Hash.new
   	resourcetypeHash["id"]=resourcetype.id
   	resourcetypeHash["resourcetype"]=resourcetype.resource_type
+    resourcetypeHash["allresourceforresourcetype"]="http://localhost:3000/api/v1/resourcetype/#{resourcetype.resource_type}?apikey=#{params[:apikey]}"
   	return resourcetypeHash
+  end
+  
+  def generateUserHash(user)
+    userHash = Hash.new
+    userHash["username"]=user.username
+    userHash["allresourceforuser"]="http://localhost:3000/api/v1/user/#{user.username}?apikey=#{params[:apikey]}"
+    return userHash
+  end
+  
+  def generateTagHash(tag)
+    tagHash = Hash.new
+    tagHash["tag"]=tag.tag
+    tagHash["allresourcefortag"]="http://localhost:3000/api/v1/tag/#{tag.tag}?apikey=#{params[:apikey]}"
+    return tagHash
   end
   
   # User validation
@@ -106,19 +122,26 @@ class ApplicationController < ActionController::Base
         return false
       end
     else
-      errorHash = Hash.new
-      errorHash["status"] = 401
-      errorHash["errormessage"] = "Auth token is missing or it's wrong"
-      respond_to do |f|
-        f.json { render json: errorHash, :status => 401 }
-        f.xml { render xml: errorHash, :status => 401 }
+      if auth_token == nil
+        authenticate_or_request_with_http_basic do |username, password|
+          @@current_username = username
+          User.find_by_username(username).authenticate(password)    #password == Digest::SHA512.hexdigest(password)
+        end
+      else
+        errorHash = Hash.new
+        errorHash["status"] = 401
+        errorHash["errormessage"] = "Auth token is missing or it's wrong"
+        respond_to do |f|
+          f.json { render json: errorHash, :status => 401 }
+          f.xml { render xml: errorHash, :status => 401 }
+        end
+        return false 
       end
-      return false 
     end
     if auth_token == nil
       authenticate_or_request_with_http_basic do |username, password|
         @@current_username = username
-        User.find_by_username(username).password == Digest::SHA512.hexdigest(password)
+        User.find_by_username(username).authenticate(password)    #password == Digest::SHA512.hexdigest(password)
       end
     end
   end

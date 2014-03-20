@@ -11,7 +11,8 @@ angular.module("TOERH.Login").controller("LoginCtrl", ["$scope", "$rootScope", "
             var params = urlString.split("&");
             for (var i = 0; i < params.length; i++) {
                 var urlParam = params[i].split("=");
-                if (urlParam[0] === "token_expires" || urlParam[0] === "auth_token") {
+                if (urlParam[0] === "token_expires" || urlParam[0] === "auth_token" || urlParam[0] === "username") {
+                    // Parse date.
                     if (urlParam[0] === "token_expires") {
                         var dateArray = urlParam[1].split("%3A");
                         var date = dateArray[0].split("+");

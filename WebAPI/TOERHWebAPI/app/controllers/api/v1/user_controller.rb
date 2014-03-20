@@ -21,7 +21,7 @@ class Api::V1::UserController < ApplicationController
 			resultHash = Hash.new
 			resultArray = Array.new
 			users.each do |user|
-				resultArray << user.username
+				resultArray << generateUserHash(user)
 			end
 			resultHash["status"] = 200
 			resultHash["users"] = resultArray
@@ -99,11 +99,11 @@ class Api::V1::UserController < ApplicationController
 			
 			if email.blank? == false && name.blank? == false && username.blank? == false && password.blank? == false
 				user = User.new
-				user.email = email
-				user.name = name
 				user.username = username
 				user.provider = "Local"
-				user.password_digest = Digest::SHA512.hexdigest(password)
+				user.auth_token = SecureRandom.urlsafe_base64(nil, false)
+				user.token_expires = Time.now + 5.hours
+				user.password_digest = password #Digest::SHA512.hexdigest(password)
 				if user.save
 					resultHash = Hash.new
 					resultHash["status"]=204
