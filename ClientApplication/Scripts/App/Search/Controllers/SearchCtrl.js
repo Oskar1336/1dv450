@@ -80,7 +80,7 @@ angular.module("TOERH.Search").controller("SearchCtrl", ["$scope", "$rootScope",
                 var promise = ResourceFactory.searchForResources($scope.search.value);
             } else if ($scope.searchType.value == "Tag") {
                 if ($scope.tag !== null) {
-                    var promise = TagFactory.searchForResourcesByTag($scope.tag);
+                    var promise = TagFactory.searchForResourcesByTag($scope.tag.tag);
                 } else {
                     MessageService.showMessage("<strong>Error:</strong> No tag selected.", "alert alert-info", "userMessage");
                 }

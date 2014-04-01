@@ -24,8 +24,8 @@ angular.module("TOERH.Resource").controller("ResourceCtrl", ["$scope", "$rootSco
             var tags = [];
             angular.forEach($scope.resources, function (resource) {
                 angular.forEach(resource.tags, function (tag) {
-                    if (tags.indexOf(tag) === -1) {
-                        tags.push(tag);
+                    if (tags.indexOf(tag.tag) === -1) {
+                        tags.push(tag.tag);
                     }
                 });
             });

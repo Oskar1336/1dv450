@@ -9,10 +9,10 @@ angular.module("TOERH.Tag").factory("TagFactory", ["$http", function ($http) {
                 url: "http://localhost:3000/api/v1/tag?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe"
             });
         },
-        searchForResourcesByTag: function (tagName) {
+        searchForResourcesByTag: function (tagId) {
             return $http({
                 method: "GET",
-                url: "http://localhost:3000/api/v1/tag/" + tagName + "?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe&page=1"
+                url: "http://localhost:3000/api/v1/tag/" + tagId + "?apikey=s4ciD75L69UAXz0y8QrhJfbNVOm3T21wGkpe&page=1"
             });
         }
     }

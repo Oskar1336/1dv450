@@ -43,7 +43,7 @@ class Api::V1::TagController < ApplicationController
 		end
 	end
 	
-	# GET :api/v1/tag/:tag?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10&page=1
+	# GET :api/v1/tag/:id?apikey=dsoumefehknkkxkumkkuzvmulclcdtkhcdwukbtg&limit=10&page=1
 	def show
 		tag = Tag.find_by_tag(params[:id])
 		if tag.blank? == false
@@ -65,7 +65,7 @@ class Api::V1::TagController < ApplicationController
 				resultArray << generateResourceHash(resource)
 			end
 			resultHash["status"]=200
-			resultHash["tag"]=tag.tag
+			resultHash["tag"]=generateTagHash(tag)
 			resultHash["resources"]=resultArray
 			if params[:page].blank? == false
 				resultHash["nextPage"]=changePageLink("tag", false)

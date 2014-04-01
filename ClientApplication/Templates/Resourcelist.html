@@ -3,7 +3,7 @@
         <button class="btn btn-info">Filter by tag</button>
         <button class="btn dropdown-toggle btn-primary"><span class="caret"></span></button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-            <li data-ng-repeat="tag in currentTags"><a href="javascript:;" data-ng-click="setSelectedTag(tag.tag)">{{tag.tag}} <span data-ng-class="isSelected(tag)"></span></a></li>
+            <li data-ng-repeat="tag in currentTags"><a href="javascript:;" data-ng-click="setSelectedTag(tag)">{{tag}} <span data-ng-class="isSelected(tag)"></span></a></li>
         </ul>
     </div>
     <div id="userMessage" class="hidden accordion-width"></div>
@@ -27,7 +27,7 @@
                 <strong>Tags:</strong>
                 <ul>
                     <li data-ng-repeat="tag in resource.tags">
-                        <a href="javascript:;" data-ng-click="getResourcesByTag(tag.tag)">{{tag.tag}}</a>
+                        <a href="javascript:;" data-ng-click="getResourcesByTag(tag.id)">{{tag.tag}}</a>
                     </li>
                 </ul>
             </accordion-group>

@@ -82,8 +82,9 @@ class ApplicationController < ActionController::Base
   
   def generateTagHash(tag)
     tagHash = Hash.new
+    tagHash["id"]=tag.id
     tagHash["tag"]=tag.tag
-    tagHash["allresourcefortag"]="http://localhost:3000/api/v1/tag/#{tag.tag}?apikey=#{params[:apikey]}"
+    tagHash["allresourcefortag"]="http://localhost:3000/api/v1/tag/#{tag.id}?apikey=#{params[:apikey]}"
     return tagHash
   end
   

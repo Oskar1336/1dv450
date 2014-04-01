@@ -8,7 +8,7 @@ angular.module("TOERH.Resource").filter("tagFilter", [
                 angular.forEach(selectedTag, function (tag) {
                     angular.forEach(resources, function (resource) {
                         angular.forEach(resource.tags, function (currentTag) {
-                            if (angular.equals(currentTag, tag)) {
+                            if (angular.equals(currentTag.tag, tag)) {
                                 tmpResources.push(resource);
                             }
                         });
